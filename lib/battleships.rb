@@ -9,17 +9,29 @@ class BattleShips < Sinatra::Base
   end
 
   get '/new_game' do
-    erb :new_game  
+    erb :player1  
   end
 
   get '/registered' do
+    @players ||= []
     @player_name = params[:player_name]
+
     if @player_name.empty?
       erb :need_name
     else
-      @player1_name = @player_name
-      "Thank you #{@player1_name} for registering"
+      @players << @player_name
+      if @players.length < 2
+        erb :player2
+      else
+        "Thank you #{@players[1]}, you will be playing against #{@players[0]}"
+      end
     end
+    # elsif @players == []
+    #   @players << @player_name
+    #   erb :player2
+    
+      # "Thank you #{@players[1]}, you will be playing against #{@players[0]}"
+    # end
   end
 
 

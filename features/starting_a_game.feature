@@ -6,13 +6,13 @@ Feature: Starting the game
     Scenario: Registering
     Given I am on the homepage
     When I follow "New Game"
-    Then I should see "What's your name?"
+    Then I should see "Please enter a name for Player 1"
 
     Scenario: Registering name input
     Given I am on new_game
     When I fill in "player_name" with "Andy"
     And I press "submit"
-    Then I should see "Thank you Andy for registering"
+    Then I should see "Thank you Andy for registering. Please enter a name for Player 2"
 
     Scenario: No name is input
     Given I am on new_game
