@@ -18,3 +18,10 @@ Feature: Starting the game
     Given I am on new_game
     When I press "submit"
     Then I should see "Please enter the player's name"
+
+    Scenario: Registering a second player
+    Given there is already a player registered named "Andy"
+    When I fill in "player_name" with "Emily"
+    And I press "submit"
+    Then I should see "Thank you Emily, you will be playing against Andy"
+

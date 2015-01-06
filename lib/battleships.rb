@@ -17,7 +17,8 @@ class BattleShips < Sinatra::Base
     if @player_name.empty?
       erb :need_name
     else
-      "Thank you #{@player_name} for registering"
+      @player1_name = @player_name
+      "Thank you #{@player1_name} for registering"
     end
   end
 
