@@ -12,28 +12,23 @@ class BattleShips < Sinatra::Base
     erb :player1  
   end
 
-  get '/registered' do
-    @players ||= []
-    @player_name = params[:player_name]
-
-    if @player_name.empty?
-      erb :need_name
+  get '/registered1' do
+    @player_name1 = params[:player_name]
+    if @player_name1.empty?
+      erb :player1
     else
-      @players << @player_name
-      if @players.length < 2
-        erb :player2
-      else
-        "Thank you #{@players[1]}, you will be playing against #{@players[0]}"
-      end
+      erb :player2
     end
-    # elsif @players == []
-    #   @players << @player_name
-    #   erb :player2
-    
-      # "Thank you #{@players[1]}, you will be playing against #{@players[0]}"
-    # end
   end
 
+  get '/registered2' do
+    @player_name2 = params[:player_name]
+    if @player_name2.empty?
+      erb :player2
+    else
+      "Thank you #{@player_name2}, you will be playing against #{@player_name1}"
+    end
+  end
 
   # start the server if ruby file executed directly
   run! if app_file == $0

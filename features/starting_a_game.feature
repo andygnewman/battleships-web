@@ -17,7 +17,7 @@ Feature: Starting the game
     Scenario: No name is input
     Given I am on new_game
     When I press "submit"
-    Then I should see "Please enter the player's name"
+    Then I should see "Please enter a name for Player 1"
 
     Scenario: Registering a second player
     Given there is already a player registered named "Andy"
