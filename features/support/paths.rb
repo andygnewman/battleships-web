@@ -13,7 +13,7 @@ module NavigationHelpers
     when /the home\s?page/
       '/'
 
-    when /the new_game page/
+    when /new_game/
       '/new_game'
 
     # Add more mappings here.

@@ -9,7 +9,7 @@ Feature: Starting the game
     Then I should see "What's your name?"
 
     Scenario: Registering name input
-    Given I am on the new_game page
-    When I fill in "name" with "Andy"
-    And I click "submit"
-    Then player name should be "Andy"
+    Given I am on new_game
+    When I fill in "player_name" with "Andy"
+    And I press "submit"
+    Then I should see "Thank you Andy for registering"
