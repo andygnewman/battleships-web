@@ -1,8 +1,15 @@
-require 'sinatra/base'
+require 'sinatra'
+# require 'sinatra'
+
+# set :root, File.join(File.dirname(__FILE__), '..')
+
 
 class BattleShips < Sinatra::Base
+
+  set :views, Proc.new { File.join(root, "..", "views") }
+
   get '/' do
-    'Hello BattleShips!'
+    erb :index
   end
 
   # start the server if ruby file executed directly
