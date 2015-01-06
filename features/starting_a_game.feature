@@ -10,5 +10,6 @@ Feature: Starting the game
 
     Scenario: Registering name input
     Given I am on the new_game page
-    When I enter "Andy"
-    Then player name should be Andy
+    When I fill in "name" with "Andy"
+    And I click "submit"
+    Then player name should be "Andy"
