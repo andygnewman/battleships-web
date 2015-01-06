@@ -14,8 +14,13 @@ class BattleShips < Sinatra::Base
 
   get '/registered' do
     @player_name = params[:player_name]
-    "Thank you #{@player_name} for registering"
+    if @player_name.empty?
+      erb :need_name
+    else
+      "Thank you #{@player_name} for registering"
+    end
   end
+
 
   # start the server if ruby file executed directly
   run! if app_file == $0
