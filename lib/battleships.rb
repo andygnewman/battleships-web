@@ -1,8 +1,4 @@
 require 'sinatra'
-# require 'sinatra'
-
-# set :root, File.join(File.dirname(__FILE__), '..')
-
 
 class BattleShips < Sinatra::Base
 
@@ -10,6 +6,10 @@ class BattleShips < Sinatra::Base
 
   get '/' do
     erb :index
+  end
+
+  get '/new_game' do
+    "What's your name?"
   end
 
   # start the server if ruby file executed directly
