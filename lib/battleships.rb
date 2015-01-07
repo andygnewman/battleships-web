@@ -40,6 +40,14 @@ class BattleShips < Sinatra::Base
     erb :set_up
   end
 
+  get '/place_ship' do
+    if params.length == 2
+    start_cell = params[:start_cell]
+    orientation = params[:orientation]
+    session[:player_name1].board.place_ship(session[:player_name1].fleet.ship_array[0], start_cell.to_sym, orientation.to_sym)
+    end
+  end
+
   # start the server if ruby file executed directly
   run! if app_file == $0
 end

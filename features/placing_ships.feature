@@ -7,7 +7,7 @@ Feature: Placing Ships
     Scenario: Continue set-up for Player1
     Given players "Andy" and "Emily" have registered
     And I am on set_up
-   	When I fill in "start point" with "A01"
+   	When I fill in "start_cell" with "A01"
     And I fill in "orientation" with "horizontal"
-    And I click on "Submit"
+    And I press "Submit"
     Then the Aircraft Carrier will be placed at A01 to E01

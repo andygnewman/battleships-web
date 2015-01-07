@@ -1,6 +1,12 @@
 
-<form>
+<form action='/place_ship'>
   Please enter coordinates for <%=session[:player_name1].fleet.ship_array[0].type.to_s.titleize%> of size <%=session[:player_name1].fleet.ship_array[0].size%>
-  <input type="text" name="player_name">
-  <input type="submit" value="submit">
+
+  Start Point (format :A01 to :J10)
+  <input type="text" name="start_cell">
+
+  Orientation (format :horizontal or :vertical)
+  <input type="text" name="orientation">
+
+  <input type="submit" value="Submit">
 </form>
