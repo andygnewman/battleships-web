@@ -11,11 +11,11 @@ Then(/^I should see "(.*?)"$/) do |text|
 end
 
 Given(/^I am on new_game$/) do
-  pending # express the regexp above with the code you wish you had
+  visit '/new_game'
 end
 
-When(/^I press "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+When(/^I press "(.*?)"$/) do |button|
+  click_on(button)
 end
 
 Given(/^there is already a player registered named "(.*?)"$/) do |player_name|
