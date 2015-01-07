@@ -37,7 +37,9 @@ class BattleShips < Sinatra::Base
   end
 
   get '/set_up' do
-    erb :set_up
+    player = session[:player_name1]
+    @fleet = player.fleet.ship_array
+    erb :set_up, locals: {fleet: @fleet}
   end
 
   post '/place_ship' do
@@ -46,7 +48,6 @@ class BattleShips < Sinatra::Base
       orientation = params[:orientation]
       player = session[:player_name1]
       begin
-        # Something is tripping the runtime error in the backend here
         player.board.place_ship(player.fleet.ship_array[0], start_cell.to_sym, orientation.to_sym)
         "Placed ship yay"
       rescue RuntimeError

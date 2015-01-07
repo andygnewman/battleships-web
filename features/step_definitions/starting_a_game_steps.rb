@@ -7,7 +7,7 @@ When(/^I follow "(.*?)"$/) do |link|
 end
 
 Then(/^I should see "(.*?)"$/) do |text|
-  have_content(text)
+  expect(page).to have_content(text)
 end
 
 Given(/^I am on new_game$/) do
