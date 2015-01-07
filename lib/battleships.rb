@@ -40,11 +40,18 @@ class BattleShips < Sinatra::Base
     erb :set_up
   end
 
-  get '/place_ship' do
+  post '/place_ship' do
     if params.length == 2
-    start_cell = params[:start_cell]
-    orientation = params[:orientation]
-    session[:player_name1].board.place_ship(session[:player_name1].fleet.ship_array[0], start_cell.to_sym, orientation.to_sym)
+      start_cell = params[:start_cell]
+      orientation = params[:orientation]
+      player = session[:player_name1]
+      begin
+        # Something is tripping the runtime error in the backend here
+        player.board.place_ship(player.fleet.ship_array[0], start_cell.to_sym, orientation.to_sym)
+        "Placed ship yay"
+      rescue RuntimeError
+        "Ship cant go here"
+      end
     end
   end
 

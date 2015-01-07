@@ -9,5 +9,5 @@ Feature: Placing Ships
     And I am on set_up
    	When I fill in "start_cell" with "A01"
     And I fill in "orientation" with "horizontal"
-    And I press "Submit"
+    And I press Submit
     Then the Aircraft Carrier will be placed at A01 to E01
