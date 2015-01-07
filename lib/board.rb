@@ -1,3 +1,6 @@
+require 'fleet'
+require 'cell'
+
 class Board
 
   attr_reader :grid

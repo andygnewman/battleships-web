@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'player'
 
 class BattleShips < Sinatra::Base
 
@@ -18,6 +19,7 @@ class BattleShips < Sinatra::Base
     if session[:player_name1].empty?
       erb :player1
     else
+      @player1 = Player.new(session[:player_name1])
       erb :player2
     end
   end
@@ -27,9 +29,13 @@ class BattleShips < Sinatra::Base
     if session[:player_name2].empty?
       erb :player2
     else
-      erb :register_complete
-      
+      @player2 = Player.new(session[:player_name2])
+      erb :register_complete 
     end
+  end
+
+  get '/set_up' do
+    erb :set_up
   end
 
   # start the server if ruby file executed directly

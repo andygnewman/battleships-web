@@ -1,3 +1,5 @@
+require 'ship'
+
 class Fleet
 
   attr_reader :ship_array
