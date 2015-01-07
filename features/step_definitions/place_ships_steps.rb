@@ -1,18 +1,3 @@
-# Given(/^I am on set_up$/) do
-#   visit ("/set_up")
-# end
-
-# When(/^I fill in "(.*?)" with "(.*?)"$/) do |field, value|
-#   fill_in(field, :with => value)
-# end
-
-# When(/^I fill in "(.*?)" with "(.*?)"$/) do |field, value|
-#   fill_in(field, :with => value)
-# end
-
-# When(/^I press "(.*?)"$/) do |button|
-#   click_button(button)
-# end
 
 Given(/^I am on set_up$/) do
    visit ("/set_up")
