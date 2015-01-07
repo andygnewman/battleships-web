@@ -27,7 +27,8 @@ class BattleShips < Sinatra::Base
     if session[:player_name2].empty?
       erb :player2
     else
-      "Thank you #{session[:player_name2]}, you will be playing against #{session[:player_name1]}"
+      erb :register_complete
+      
     end
   end
 
