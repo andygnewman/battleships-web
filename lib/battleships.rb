@@ -1,3 +1,4 @@
+require 'active_support/all'
 require 'sinatra'
 require_relative 'player'
 require_relative 'fleet'

@@ -24,9 +24,3 @@ Feature: Starting the game
     When I fill in "player_name" with "Emily"
     And I press "submit"
     Then I should see "Thank you Emily, you will be playing against Andy"
-
-    Scenario: Start set-up for Player1
-    Given players "Andy" and "Emily" have registered
-    When I follow "Set-up ships for Andy"
-    Then I should see "Please enter coordinates for Aircraft Carrier of size 5"
-

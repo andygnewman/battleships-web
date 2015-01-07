@@ -1,6 +1,6 @@
 
 <form>
-  Please enter for <%=session[:player_name1].fleet.ship_array[0].type%>
+  Please enter coordinates for <%=session[:player_name1].fleet.ship_array[0].type.to_s.titleize%> of size <%=session[:player_name1].fleet.ship_array[0].size%>
   <input type="text" name="player_name">
   <input type="submit" value="submit">
 </form>

@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
+gem 'activesupport'
 
 group :developent, :test do
   gem 'capybara'
