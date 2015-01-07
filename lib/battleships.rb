@@ -20,7 +20,7 @@ class BattleShips < Sinatra::Base
     if session[:player_name1].empty?
       erb :player1
     else
-      @player1 = Player.new(session[:player_name1])
+      session[:player_name1] = Player.new(params[:player_name])
       erb :player2
     end
   end
@@ -30,7 +30,7 @@ class BattleShips < Sinatra::Base
     if session[:player_name2].empty?
       erb :player2
     else
-      @player2 = Player.new(session[:player_name2])
+      session[:player_name2] = Player.new(params[:player_name])
       erb :register_complete 
     end
   end

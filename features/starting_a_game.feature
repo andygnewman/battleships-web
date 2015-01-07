@@ -28,5 +28,5 @@ Feature: Starting the game
     Scenario: Start set-up for Player1
     Given players "Andy" and "Emily" have registered
     When I follow "Set-up ships for Andy"
-    Then I should see "Please enter coordinates for Aircraft Carrier"
+    Then I should see "Please enter coordinates for Aircraft Carrier of size 5"
 
