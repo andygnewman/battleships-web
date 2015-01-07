@@ -10,7 +10,7 @@ Feature: Placing Ships
    	When I fill in "start_cell0" with "A01"
     And I fill in "orientation0" with "horizontal"
     And I press Submit
-    Then the Aircraft Carrier will be placed at A01 to E01
+    Then the Aircraft Carrier will be placed at "A01" to "E01"
     And I should see "Please enter coordinates for Battleship of size 4"
 
     # Scenario: Place second ship for Player1
@@ -18,4 +18,4 @@ Feature: Placing Ships
     # When I fill in "start_cell" with "A02"
     # And I fill in "orientation" with "horizontal"
     # And I press Submit
-    # Then the Battleship will be placed at A02 to D02
+    # Then the Battleship will be placed at "A02" to "D02"

@@ -7,6 +7,7 @@ require File.join(File.dirname(__FILE__), '..', '..', 'lib/battleships.rb')
 require 'capybara'
 require 'capybara/cucumber'
 require 'rspec'
+require 'byebug'
 
 Capybara.app = BattleShips
 
