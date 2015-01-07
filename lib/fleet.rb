@@ -1,4 +1,4 @@
-require 'ship'
+require_relative 'ship'
 
 class Fleet
 

@@ -1,5 +1,5 @@
-require 'fleet'
-require 'cell'
+require_relative 'fleet'
+require_relative 'cell'
 
 class Board
 

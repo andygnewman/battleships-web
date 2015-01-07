@@ -1,5 +1,6 @@
 require 'sinatra'
-require 'player'
+require_relative 'player'
+require_relative 'fleet'
 
 class BattleShips < Sinatra::Base
 
