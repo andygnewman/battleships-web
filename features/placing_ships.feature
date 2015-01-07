@@ -9,7 +9,7 @@ Feature: Placing Ships
     And I am on set_up
    	When I fill in "start_cell0" with "A01"
     And I fill in "orientation0" with "horizontal"
-    And I press Submit
+    And I press "submit"
     Then the Aircraft Carrier will be placed at "A01" to "E01"
     And I should see "Please enter coordinates for Battleship of size 4"
 

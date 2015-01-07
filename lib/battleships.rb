@@ -16,7 +16,7 @@ class BattleShips < Sinatra::Base
     erb :player1  
   end
 
-  get '/registered1' do
+  post '/registered1' do
     session[:player_name1] = params[:player_name]
     if session[:player_name1].empty?
       erb :player1
@@ -26,7 +26,7 @@ class BattleShips < Sinatra::Base
     end
   end
 
-  get '/registered2' do
+  post '/registered2' do
     session[:player_name2] = params[:player_name]
     if session[:player_name2].empty?
       erb :player2
@@ -44,8 +44,10 @@ class BattleShips < Sinatra::Base
 
   post '/place_ship' do
     if params
+
       start_cell = params[:start_cell0]
       orientation = params[:orientation0]
+
       player = session[:player_name1]
       begin
         player.board.place_ship(player.fleet.ship_array[0], start_cell.to_sym, orientation.to_sym)

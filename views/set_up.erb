@@ -1,9 +1,8 @@
 
 
+<form action='/place_ship/' method='post'> 
 
-<form action='/place_ship' method='post'>
-
-  <% fleet.each_with_index do |ship, i| %>    
+  <% fleet.each_with_index do |ship, i| %> 
 
     <% @ship_type = ship.type.to_s.titleize %>
     <% @ship_size = ship.size %>
@@ -18,6 +17,6 @@
 
   <% end %>
 
-  <input type="submit" value="submit" />
+  <input type="submit" value=<%="submit"%> />
 
 </form>
