@@ -1,8 +1,7 @@
 
 
-<form action='/place_ship/' method='post'> 
+<form action='/place_ship'> 
 
-  <% fleet.each_with_index do |ship, i| %> 
 
     <% @ship_type = ship.type.to_s.titleize %>
     <% @ship_size = ship.size %>
@@ -10,12 +9,10 @@
     Please enter coordinates for <%=@ship_type%> of size <%=@ship_size%>
 
     Start Point (A01 to J10)
-    <input type="text" name=<%="start_cell#{i}"%> />
+    <input type="text" name=<%="start_cell"%> />
 
     Orientation (horizontal or vertical)
-    <input type="text" name=<%="orientation#{i}"%> />
-
-  <% end %>
+    <input type="text" name=<%="orientation"%> />
 
   <input type="submit" value=<%="submit"%> />
 

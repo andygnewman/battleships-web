@@ -22,6 +22,8 @@ class BattleShips < Sinatra::Base
       erb :player1
     else
       session[:player_name1] = Player.new(params[:player_name])
+      player = session[:player_name1]
+      session[:fleet1] = player.fleet.ship_array
       erb :player2
     end
   end
@@ -37,26 +39,27 @@ class BattleShips < Sinatra::Base
   end
 
   get '/set_up' do
-    player = session[:player_name1]
-    @fleet = player.fleet.ship_array
-    erb :set_up, locals: {fleet: @fleet}
+    session[:ship1] = session[:fleet1].shift
+    @ship1 = session[:ship1]
+    erb :set_up, locals: {ship: @ship1}
   end
 
-  post '/place_ship' do
+  get '/place_ship' do
     if params
-
-      start_cell = params[:start_cell0]
-      orientation = params[:orientation0]
-
+      start_cell = params[:start_cell]
+      orientation = params[:orientation]
       player = session[:player_name1]
+      ship = session[:ship1]
       begin
-        player.board.place_ship(player.fleet.ship_array[0], start_cell.to_sym, orientation.to_sym)
-        erb :place_success
+        player.board.place_ship(ship, start_cell.to_sym, orientation.to_sym)
+        redirect '/set_up' # erb :place_success
       rescue RuntimeError
         erb :place_error
       end
     end
   end
+
+
 
   # start the server if ruby file executed directly
   run! if app_file == $0
