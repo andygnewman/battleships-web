@@ -2,6 +2,9 @@ require 'active_support/all'
 require 'sinatra'
 require_relative 'game'
 require_relative 'player'
+require_relative 'board'
+require_relative 'cell'
+require_relative 'ship'
 
 class BattleShips < Sinatra::Base
 
@@ -23,9 +26,11 @@ class BattleShips < Sinatra::Base
     if params[:player_name].empty?
       erb :player_reg_form
     else
-      player = Player.new(params[:player_name])
-      session[:players] << player.object_id
-      session[:fleets] << player.fleet.ship_array
+      player = Player.new
+      player.name = params[:player_name]
+      player.board = Board.new(Cell)
+      session[:players] << player.name
+      #session[:fleets] << player.fleet.ship_array
       puts session.inspect
       if session[:players].size ==2
          erb :register_complete

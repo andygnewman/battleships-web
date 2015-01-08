@@ -4,7 +4,7 @@ class Board
 	def initialize(content)
 		@grid = {}
 		[*"A".."J"].each do |l|
-			[*1..10].each {|n| @grid["#{l}#{n}".to_sym] = content.new}
+			[*1..10].each {|n| @grid["#{l}#{"0" if n < 10}#{n}".to_sym] = content.new}
 		end
 	end
 
