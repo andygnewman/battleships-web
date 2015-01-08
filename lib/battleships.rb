@@ -28,10 +28,11 @@ class BattleShips < Sinatra::Base
     else
       player = Player.new
       player.name = params[:player_name]
-      player.board = Board.new(Cell)
       session[:players] << player.name
+      player.board = Board.new(Cell)
+      fleet = [Ship.aircraft_carrier, Ship.battleship, Ship.destroyer, Ship.submarine, Ship.patrol_boat ]
       #session[:fleets] << player.fleet.ship_array
-      puts session.inspect
+      # puts session.inspect
       if session[:players].size ==2
          erb :register_complete
       else
