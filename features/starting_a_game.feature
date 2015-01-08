@@ -12,7 +12,7 @@ Feature: Starting the game
     Given I am on new_game
     When I fill in "player_name" with "Andy"
     And I press "submit"
-    Then I should see "Thank you Andy for registering. Please enter a name for Player 2"
+    Then I should see "Please enter a name for Player 2"
 
     Scenario: No name is input
     Given I am on new_game

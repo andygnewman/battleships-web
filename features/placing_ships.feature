@@ -6,9 +6,9 @@ Feature: Placing Ships
 
     Scenario: Place first ship for Player1
     Given players "Andy" and "Emily" have registered
-    And I am on set_up
-   	When I fill in "start_cell0" with "A01"
-    And I fill in "orientation0" with "horizontal"
+    And I am on get_coordinates
+   	When I fill in "start_cell" with "A01"
+    And I fill in "orientation" with "horizontal"
     And I press "submit"
     Then the Aircraft Carrier will be placed at "A01" to "E01"
     And I should see "Please enter coordinates for Battleship of size 4"
