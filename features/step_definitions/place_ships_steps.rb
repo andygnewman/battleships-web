@@ -1,5 +1,5 @@
 Given(/^I am on get_coordinates$/) do
-   visit ("/set_up_fleet")
+   visit ("/get_coordinates")
    
 end
 

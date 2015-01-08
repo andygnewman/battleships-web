@@ -6,7 +6,7 @@ Feature: Placing Ships
 
     Scenario: Place first ship for Player1
     Given players "Andy" and "Emily" have registered
-    And I am on get_coordinates
+    When I follow "Set-up ships for Andy"
    	When I fill in "start_cell" with "A01"
     And I fill in "orientation" with "horizontal"
     And I press "submit"

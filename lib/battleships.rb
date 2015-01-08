@@ -21,29 +21,29 @@ class BattleShips < Sinatra::Base
   end
 
   get '/new_game' do
-    session[:players] = []
-    session[:fleets] = []
-    erb :player_reg_form
+    players.clear
+    @player_to_register = players.size + 1
+    erb :player_reg_form, locals: {player_to_register: @player_to_register}
   end
 
   post '/registered' do
     if params[:player_name].empty?
-      erb :player_reg_form
+      @player_to_register = players.size + 1
+      erb :player_reg_form, locals: {player_to_register: @player_to_register}
     else
       player = Player.new
       player.name = params[:player_name]
       player.board = Board.new(Cell)
       players << player
       if players.size ==2
-         erb :register_complete
+         @player1_name = players[0].name
+         @player2_name = players[1].name
+         erb :register_complete, locals: {player1_name: @player1_name, player2_name: @player2_name}
       else
-        erb :player_reg_form
+        @player_to_register = players.size + 1
+        erb :player_reg_form, locals: {player_to_register: @player_to_register}
       end
     end
-  end
-
-  get '/set_up_fleet' do
-    redirect '/get_coordinates'
   end
 
   get '/get_coordinates/?:error?' do
@@ -56,7 +56,7 @@ class BattleShips < Sinatra::Base
       erb :get_coordinates, locals: {ship: @ship, error: @error}
     else
       "You have placed all your ships"
-      redirect '/set_up_fleet' if fleet == 0
+      # redirect '/set_up_fleet' if fleet == 0
     end
   end
 
