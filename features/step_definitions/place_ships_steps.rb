@@ -1,5 +1,6 @@
 Given(/^I am on get_coordinates$/) do
-   visit ("/get_coordinates")
+   visit ("/set_up_fleet")
+   
 end
 
 When(/^I fill in "(.*?)" with "(.*?)"$/) do |name, text|

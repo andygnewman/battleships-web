@@ -16,6 +16,9 @@ module NavigationHelpers
     when /new_game/
       '/new_game'
 
+    when /set_up_fleet/
+      '/set_up_fleet'       
+
     when /get_coordinates/
       '/get_coordinates' 
 
