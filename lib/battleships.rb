@@ -72,7 +72,6 @@ class BattleShips < Sinatra::Base
         player.board.place(ship, start_cell.to_sym, orientation.to_sym)
         !fleet1.empty? ? fleet1.shift : fleet2.shift
         redirect '/get_coordinates' # erb :place_success
-
       rescue RuntimeError
         #erb :place_error
       end
