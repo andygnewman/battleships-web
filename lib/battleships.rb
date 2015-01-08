@@ -12,11 +12,9 @@ class BattleShips < Sinatra::Base
   set :views, Proc.new { File.join(root, "..", "views") }
   enable :sessions
   game = Game.new
-  board1 = Board.new
-  board2 = Board.new
-  #fleets = [Fleet.new.ship_array, Fleet.new.ship_array]
   fleet1 = Fleet.new.ship_array
   fleet2 = Fleet.new.ship_array
+  players = []
 
   get '/' do
     erb :index
@@ -34,9 +32,9 @@ class BattleShips < Sinatra::Base
     else
       player = Player.new
       player.name = params[:player_name]
-      session[:players] << player.name
-      # player.board = Board.new(Cell)
-      if session[:players].size ==2
+      player.board = Board.new(Cell)
+      players << player
+      if players.size ==2
          erb :register_complete
       else
         erb :player_reg_form
@@ -66,10 +64,10 @@ class BattleShips < Sinatra::Base
     if params
       start_cell = params[:start_cell]
       orientation = params[:orientation]
-      player = session[:players][0]
+      player = players[0]
       ship = session[:ship]
       begin
-        player.board.place_ship(ship, start_cell.to_sym, orientation.to_sym)
+        player.board.place(ship, start_cell.to_sym, orientation.to_sym)
         redirect '/get_coordinates' # erb :place_success
       rescue RuntimeError
         erb :place_error

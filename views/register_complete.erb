@@ -1,4 +1,4 @@
 
-<%="Thank you #{session[:players][1]}, you will be playing against #{session[:players][0]}"%>
-<a href="/set_up_fleet">Set-up ships for <%= session[:players][0] %></a>
+<%="Thank you #{players[1].name}, you will be playing against #{players[0].name}"%>
+<a href="/set_up_fleet">Set-up ships for <%= players[0].name %></a>
 
