@@ -1,10 +1,11 @@
 
-
 <form action='/place_ship'> 
 
 
     <% @ship_type = ship.type.to_s.titleize %>
     <% @ship_size = ship.size %>
+
+    <%= @error %>
 
     Please enter coordinates for <%=@ship_type%> of size <%=@ship_size%>
 

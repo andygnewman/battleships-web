@@ -28,6 +28,27 @@ class BattleShips < Sinatra::Base
     end
   end
 
+  # get '/new_game' do
+    #   session[:players] = []
+    #   session[:fleets] = []
+    #   erb :player_reg_form
+    # end
+
+  # post '/registered' do
+    # if params[:player_name].empty?
+      # erb :player_reg_form
+    # else
+      # player = Player.new(params[:player_name])
+      # session[:players] << player
+      # session[:fleets] << player.fleet.ship_array
+      # if session[:players].size ==2
+        # move on to placing ships for 1st player
+      # else
+        # erb :player_reg_form
+      # end
+    # end
+  # end
+
   post '/registered2' do
     session[:player_name2] = params[:player_name]
     if session[:player_name2].empty?
@@ -38,10 +59,15 @@ class BattleShips < Sinatra::Base
     end
   end
 
-  get '/set_up' do
-    session[:ship1] = session[:fleet1].shift
-    @ship1 = session[:ship1]
-    erb :set_up, locals: {ship: @ship1}
+  get '/set_up/?:error?' do
+    if session[:fleet1].size > 0
+      session[:ship1] = session[:fleet1].shift
+      @ship1 = session[:ship1]
+      @error = params[:error]
+      erb :set_up, locals: {ship: @ship1, error: @error}
+    else
+      "You have placed all your ships"
+    end
   end
 
   get '/place_ship' do
