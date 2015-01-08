@@ -1,43 +1,57 @@
 require 'ship'
 
 describe Ship do
+	let(:ship){Ship.new(1)}
 
-  let(:ship) { Ship.battleship }
+	context "on initialize" do
+		it "can create a ship with a size" do
+			expect(ship.size).to eq 1
+		end
+	end
 
-  context 'can be created with a' do
-    it 'size' do
-      expect(ship.size).to eq(4)
-    end
+	it "can be hit" do 
+		ship.hit!
+		expect(ship.hits).to eq 1
+	end
 
-    it 'type' do
-      expect(ship.type).to eq(:battleship)
-    end
+	it "is floating" do
+		expect(ship).to be_floating
+	end
 
-    it 'hits received' do
-      expect(ship.hits_received).to eq(0)
-    end
+	it "can be sunk" do 
+		ship.hit!
+		expect(ship).to be_sunk 
+	end
 
-  end
+	it "isn't floating" do 
+		ship.hit!
+		expect(ship).not_to be_floating
+	end
 
-  context 'returns error if' do
-    
-    it 'not recognised ship parameter is passed' do
-      expect{Ship.banana}.to raise_error(NoMethodError, "undefined method `banana' for Ship:Class")
-    end
+	it "can create an Aircraft carrier" do 
+		ac = Ship.aircraft_carrier
+		expect(ac.size).to eq 5
+	end
 
-  end
+	it "can create battleship" do 
+		battleship = Ship.battleship
+		expect(battleship.size).to eq 4
+	end
 
-  context 'can be' do
+	it "can create an destroyer" do 
+		destroyer = Ship.destroyer
+		expect(destroyer.size).to eq 3
+	end
 
-    it 'hit by a shot' do
-      ship.hit!
-      expect(ship.hits_received).to eq(1)
-    end
+	it "can create an submarine" do 
+		sub = Ship.submarine
+		expect(sub.size).to eq 3
+	end
 
-    it 'sunk' do
-      ship.size.times { ship.hit! }
-      expect(ship).to be_sunk
-    end
-  end
+	it "can create an patrol boat" do 
+		pb = Ship.patrol_boat
+		expect(pb.size).to eq 5
+	end
+
 
 end

@@ -1,89 +1,85 @@
 require 'board'
 
 describe Board do
+	let(:water) {double :water}
+	let(:cell){double :cell, content: water, :content= => nil, hit?:nil}
+	let(:second_cell){double :second_cell, :content= => nil,content: nil, hit?: nil}
+	let(:third_cell){double :second_cell, :content= => nil, hit?: nil}
+	let(:cell_class){double :cell_class, :new => cell}
+	let(:ship){double :ship, size: 2, sunk?: false, floating?: true }
+	let(:second_ship){double :ship, size: 2, sunk?: false }
+	let(:board){Board.new(cell_class)}
 
-  let(:board) {Board.new(cell_class)}
+	it "can have a grid of 100 places" do
+		expect(board.grid.count).to eq 100
+	end
 
-  let(:ship_double){double :ship_double}
-  let(:cell_class){double :cell_class, new: cell}
-  let(:cell){double :cell, content: :water, ship_object: nil}
-  let(:cellA1){double :cellA1}
-  let(:cellA2){double :cellA2}
-  let(:cellA3){double :cellA3}
+	it "should have coordiantes" do
+		expect(board.grid[:A1].content).to eq water
+	end
 
-  context 'a grid when initialised should' do
-  
-    it 'have 100 cells' do
-      expect(board.grid.length).to eq(100)
-    end
+	it "can place a ship" do
+		board.grid[:A2] = second_cell
+		expect(cell).to receive(:content=).with(ship)
+		board.place(ship,:A1)
+	end
 
-  end
-  
-  context 'placing ships methods:' do
+	it "places a ship in all it's positions" do 
+		board.grid[:A2] = second_cell
+		allow(cell).to receive(:content=).with(ship)
+		expect(second_cell).to receive(:content=).with(ship)
+		board.place(ship, :A1)
+	end
 
-    it 'should return the expected coordinates for a vertical ship of size 3' do
-      allow(ship_double).to receive(:size).and_return(3)
-      expect(board.coordinates(ship_double, :A1, :vertical)).to eq([:A1, :A2, :A3])
-    end
+	it "can place a ship verticall" do 
+		board.grid[:B1] = second_cell
+		expect(second_cell).to receive(:content=).with(ship)
+		board.place(ship, :A1, :vertically)
+	end
 
-    it 'should return the expected coordinates for a vertical ship of size 5' do
-      allow(ship_double).to receive(:size).and_return(5)
-      expect(board.coordinates(ship_double, :C2, :horizontal)).to eq([:C2, :D2, :E2, :F2, :G2])
-    end
+	it "knows if there are still floating ships" do
+		allow(board).to receive(:ships).and_return [ship]
+		expect(board.floating_ships?).to eq true
+	end
 
-    it 'should recognise if a ship is going outside the grid' do
-      expect{board.within_grid([:A9, :A10, :A11])}.to raise_error(RuntimeError, 'You cannot place a ship outside the grid')
-    end
+	it "knows when there are no floating ships" do 
+		sunk_ship = double :ship, size: 1, sunk?: true, floating?: false
+		allow(board).to receive(:ships).and_return [sunk_ship]
+		expect(board.floating_ships?).to eq false
+	end
 
-    it 'should know that the coordinates are clear, if there are no ships' do
-      board.grid[:A1], board.grid[:A2], board.grid[:A3] = cellA1, cellA2, cellA3
-      allow(cellA1).to receive(:ship_or_water).and_return(:water)
-      allow(cellA2).to receive(:ship_or_water).and_return(:water)
-      allow(cellA3).to receive(:ship_or_water).and_return(:water)
-      expect([:A1, :A2, :A3].all? {|cell| board.grid[cell].ship_or_water == :water}).to be true
-    end
+	it "passes a shot onto a ship" do
+		expect(cell).to receive(:shoot)
+		board.shoot_at(:A1)
+	end
 
-    it 'should know that the coordinates aren\'t clear, if there are ships' do
-      board.grid[:A1], board.grid[:A2], board.grid[:A3] = cellA1, cellA2, cellA3
-      allow(cellA1).to receive(:ship_or_water).and_return(:water)
-      allow(cellA2).to receive(:ship_or_water).and_return(:ship)
-      allow(cellA3).to receive(:ship_or_water).and_return(:water)  
-      expect{board.check_coords_for_ships([:A1, :A2, :A3])}.to raise_error(RuntimeError, 'You cannot place a ship on another ship')
-    end
+	it 'has a list of all the ships' do
+		board.grid[:A1] = second_cell
+		allow(second_cell).to receive(:content).and_return ship
+		expect(board.ships).to eq [ship]
+	end
 
-    it 'should be able to place a ship in to a cell' do
-      board.grid[:A1] = cellA1
-      expect(cellA1).to receive(:ship_in_cell!).with(ship_double)
-      board.place_ship_in_a_cell(:A1, ship_double)
-    end
+	it "cannot shoot at a cell which has been hit already" do
+		allow(cell).to receive(:hit?).and_return true
+		expect{board.shoot_at(:A1)}.to raise_error "You cannot hit the same square twice"
+	end
 
-    it 'should be able to place a ship in all its coordinates' do
-      board.grid[:A1], board.grid[:A2], board.grid[:A3] = cellA1, cellA2, cellA3
-      expect(cellA1).to receive(:ship_in_cell!).with(ship_double)
-      expect(cellA2).to receive(:ship_in_cell!).with(ship_double)
-      expect(cellA3).to receive(:ship_in_cell!).with(ship_double)
-      board.place_ship_in_all_cells([:A1, :A2, :A3], ship_double)
-    end
- 
-  end
+	it "won't let you place ship outside of the grid" do
+		expect{board.place(ship, :K1)}.to raise_error "You cannot place a ship outside of the grid"
+	end
 
-  context 'integration test for place_ship method' do
+	it "knows how many ships are on the grid" do
+		board.grid[:A1],board.grid[:A2] = second_cell, second_cell
+		board.grid[:B1] = third_cell
+		allow(second_cell).to receive(:content).and_return ship
+		allow(third_cell).to receive(:content).and_return second_ship
+		expect(board.ships_count).to eq 2
+	end
 
-    let(:cellC4){double :cellC4, ship_or_water: :water}
-    let(:cellD4){double :cellD4, ship_or_water: :water}
-    let(:cellE4){double :cellE4, ship_or_water: :water}
-    let(:cellF4){double :cellF4, ship_or_water: :water}
-
-    it 'should place a ship in the cells when passed ship, start cell and orientation' do
-      board.grid[:C4], board.grid[:D4], board.grid[:E4], board.grid[:F4] = cellC4, cellD4, cellE4, cellF4
-      allow(ship_double).to receive(:size).and_return(4)
-      expect(cellC4).to receive(:ship_in_cell!).with(ship_double)
-      expect(cellD4).to receive(:ship_in_cell!).with(ship_double)
-      expect(cellE4).to receive(:ship_in_cell!).with(ship_double)
-      expect(cellF4).to receive(:ship_in_cell!).with(ship_double)
-      board.place_ship(ship_double, :C4, :horizontal)
-    end
-
-  end
+	it "won't let you place a ship on top of another ship" do
+		board.grid[:A1] = second_cell
+		allow(second_cell).to receive(:content).and_return ship
+		expect{board.place(ship,:A1)}.to raise_error "You cannot place a ship on another ship"
+	end
 
 end

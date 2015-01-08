@@ -1,102 +1,67 @@
-require_relative 'fleet'
-require_relative 'cell'
-
 class Board
+	attr_reader :grid
 
-  attr_reader :grid
+	def initialize(content)
+		@grid = {}
+		[*"A".."J"].each do |l|
+			[*1..10].each {|n| @grid["#{l}#{n}".to_sym] = content.new}
+		end
+	end
 
-  def initialize(content = Cell)
-    @grid = {}
-    columns = [*"A".."J"]
-    rows = [*1..10]
-    rows.each {|n| columns.each {|l| @grid["#{l}#{n < 10 ? "0" : ""}#{n}".to_sym] = content.new}}
-    end
+	def place(ship, coord, orientation = :horizontally)
+		coords = [coord]
+		ship.size.times{coords << next_coord(coords.last, orientation)}
+		put_on_grid_if_possible(coords, ship)
+	end
 
-  def place_ship(ship, start_cell, orientation)
-    coords = coordinates(ship, start_cell, orientation)
-    put_on_grid_if_possible(coords, ship)
-  end
+	def floating_ships?
+		ships.any?(&:floating?)
+	end
 
-  def coordinates(ship, start_cell, orientation)
-    coords = [start_cell]
-    ((ship.size) -1).times {coords << next_cell(coords, orientation)}
-    coords
-  end
+	def shoot_at(coordinate)
+		raise "You cannot hit the same square twice" if  grid[coordinate].hit?
+		grid[coordinate].shoot
+	end
 
-  def put_on_grid_if_possible(coords, ship)
-    within_grid(coords)
-    check_coords_for_ships(coords)
-    place_ship_in_all_cells(coords, ship)
-  end
+	def ships
+		grid.values.select{|cell|is_a_ship?(cell)}.map(&:content).uniq
+	end
 
-  def next_cell(coords, orientation)
-    orientation == :vertical ? coords.last.next : next_horizontal(coords)
-  end
+	def ships_count
+		ships.count
+	end
 
-  def next_horizontal(coords)
-    coords.last.to_s.reverse.next.reverse.to_sym
-  end
+private
 
-  def within_grid(coords)
-    raise 'You cannot place a ship outside the grid' unless grid.keys & coords == coords
-  end
+ 	def next_coord(coord, orientation)
+		orientation == :vertically ? next_vertical(coord) : coord.next
+	end
 
-  def check_coords_for_ships(coords)
-    raise 'You cannot place a ship on another ship' if coords.any? { |grid_ref| grid[grid_ref].ship_or_water == :ship}
-  end
+	def next_vertical(coord)
+		coord.to_s.reverse.next.reverse.to_sym
+	end
 
-  def place_ship_in_all_cells(coords, ship)
-    coords.each {|grid_ref| place_ship_in_a_cell(grid_ref, ship)}
-  end
+	def is_a_ship?(cell)
+		cell.content.respond_to?(:sunk?) 
+	end
 
-  def place_ship_in_a_cell(grid_ref, ship)
-    grid[grid_ref].ship_in_cell!(ship)
-  end
+	def any_coord_not_on_grid?(coords)
+		(grid.keys & coords) != coords
+	end
 
-  def cell_object(grid_ref)
-    grid[grid_ref]
-  end
+	def any_coord_is_already_a_ship?(coords)
+		coords.any?{|coord| is_a_ship?(grid[coord])}
+	end
 
-  # methods below were quickly written to generate a view in the terminal of the grid to assist placing ships and shooting, not intended for use
+	def raise_errors_if_cant_place_ship(coords)
+		raise "You cannot place a ship outside of the grid" if any_coord_not_on_grid?(coords)
+		raise "You cannot place a ship on another ship" if any_coord_is_already_a_ship?(coords)
+	end
 
-  def display_own_grid
-    hit_values = []
-    ship_values = []
-     grid.keys.each {|g| hit_values << (grid[g].hit ? "H" : "-")}
-     grid.keys.each {|g| ship_values << (grid[g].ship_in_cell ? "S" : "W")}
-    display_array = []
-    for i in 0..99 
-      display_array << "#{grid.keys[i]}#{hit_values[i]}#{ship_values[i]}"
-    end
-    p display_array[0..9]
-    p display_array[10..19]
-    p display_array[20..29]
-    p display_array[30..39]
-    p display_array[40..49]
-    p display_array[50..59]
-    p display_array[60..69]
-    p display_array[70..79]
-    p display_array[80..89]
-    p display_array[90..99]
-  end
-
-  def display_opponent_grid
-    hit_values = []
-    grid.keys.each {|g| hit_values << (grid[g].hit ? (grid[g].ship_in_cell ? "S" : "M") : "-")}
-    display_array = []
-    for i in 0..99 
-      display_array << "#{grid.keys[i]}#{hit_values[i]}"
-    end
-    p display_array[0..9]
-    p display_array[10..19]
-    p display_array[20..29]
-    p display_array[30..39]
-    p display_array[40..49]
-    p display_array[50..59]
-    p display_array[60..69]
-    p display_array[70..79]
-    p display_array[80..89]
-    p display_array[90..99]
-  end 
+	def put_on_grid_if_possible(coords, ship)
+		raise_errors_if_cant_place_ship(coords)
+		coords.each{|coord|grid[coord].content = ship}
+	end
 
 end
+

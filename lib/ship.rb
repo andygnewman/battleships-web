@@ -1,26 +1,42 @@
 class Ship
+	attr_reader :size
+	attr_accessor :hits
 
-  SHIPS = {aircraft_carrier: 5, battleship: 4, submarine: 3, destroyer: 3, patrol_boat: 2}
+	def initialize(size)
+		@size, @hits = size, 0
+	end
 
-  def initialize(size, type)
-    @size = size
-    @type = type
-    @hits_received = 0
-  end
+	def hit!
+		self.hits += 1
+		true
+	end
 
-  attr_reader :type, :size, :hits_received
+	def sunk?
+		hits == size
+	end
 
-  def self.method_missing name, *args
-    return new SHIPS[name], name if SHIPS[name]
-    super
-  end
+	def floating?
+		!sunk?
+	end
 
-  def hit!
-    @hits_received += 1
-  end
+	def self.aircraft_carrier
+		new 5
+	end
 
-  def sunk?
-    hits_received == size
-  end
+	def self.battleship
+		new 4
+	end
+
+	def self.destroyer
+		new 3
+	end
+
+	def self.submarine
+		new 3
+	end
+
+	def self.patrol_boat
+		new 5
+	end
 
 end
