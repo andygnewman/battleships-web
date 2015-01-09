@@ -19,12 +19,16 @@ class Game
 	# 	@fleets << fleet
 	# end
 
+	def has_a_player?
+		@players.count > 0
+	end
+
 	def has_two_players?
 		@players.count == 2
 	end
 
-	def return_other_player(current_player)
-		@players.reject { |player| player.name == current_player }.first
+	def return_other_player_name(current_player)
+		@players.reject { |player| player.name == current_player }.first.name
 	end
 
 	def which_is(current_player)

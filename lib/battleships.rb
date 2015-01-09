@@ -39,8 +39,15 @@ class BattleShips < Sinatra::Base
     end
   end
 
-  get '/switch_player' do
-
+  get '/switch_players' do
+    if GAME.has_two_players? 
+      puts GAME.return_other_player_name(session[:current_player])
+      session[:current_player] = GAME.return_other_player_name(session[:current_player])
+    else
+      @msg = "You need to have two players registered before you can switch"
+      erb :index, locals: {msg: @msg }     
+    end
+      erb :index
   end
 
 
