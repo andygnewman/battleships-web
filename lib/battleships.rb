@@ -21,7 +21,7 @@ class BattleShips < Sinatra::Base
   get '/new_game' do
     GAME.fleets.clear
     GAME.players.clear
-    erb :player_reg_form
+    erb :index
   end
 
   get '/register' do
@@ -39,14 +39,26 @@ class BattleShips < Sinatra::Base
     end
   end
 
+  get '/switch_player' do
+
+  end
+
+
   get '/get_coordinates/?:error?' do
-    if GAME.fleet_empty_for(session[:current_player])
-      "You have placed all your ships"
+    if session[:current_player]
+      if GAME.fleet_empty_for(session[:current_player])
+        erb :all_fleet_ships_placed
+      else
+      @ship = GAME.ship_to_place(session[:current_player])
+      @ship_type = @ship.type.to_s.titleize
+      @ship_size = @ship.size
+      @error = session[:error] if params[:error] != nil
+      erb :get_coordinates, locals: {ship: @ship, error: @error, ship_type: @ship_type, ship_size: @ship_size}
+      end
     else
-    @ship = GAME.ship_to_place(session[:current_player])
-    @error = session[:error] if params[:error] != nil
-    erb :get_coordinates, locals: {ship: @ship, error: @error}
-    end
+      @msg = "You need to register before you can place ships"
+      erb :index, locals: {msg: @msg } 
+    end     
   end
 
   get '/place_ship' do
