@@ -11,52 +11,41 @@ class BattleShips < Sinatra::Base
 
   set :views, Proc.new { File.join(root, "..", "views") }
   enable :sessions
-  game = Game.new
-  fleet1 = Fleet.new.ship_array
-  fleet2 = Fleet.new.ship_array
-  players = []
+  
+  GAME = Game.new
 
   get '/' do
     erb :index
   end
 
   get '/new_game' do
-    players.clear
-    @player_to_register = players.size + 1
-    erb :player_reg_form, locals: {player_to_register: @player_to_register}
+    GAME.fleets.clear
+    GAME.players.clear
+    erb :player_reg_form
   end
 
-  post '/registered' do
-    if params[:player_name].empty?
-      @player_to_register = players.size + 1
-      erb :player_reg_form, locals: {player_to_register: @player_to_register}
+  get '/register' do
+    if GAME.has_two_players?
+      @msg = "You already have 2 players registered, either place ships or start game"
+      erb :index, locals: {msg: @msg }
     else
-      player = Player.new
-      player.name = params[:player_name]
-      player.board = Board.new(Cell)
-      players << player
-      if players.size ==2
-         @player1_name = players[0].name
-         @player2_name = players[1].name
-         erb :register_complete, locals: {player1_name: @player1_name, player2_name: @player2_name}
+      if params[:player_name]
+      GAME.add_player(params[:player_name])
+      session[:current_player] = params[:player_name]
+      GAME.has_two_players? ? (erb :register_complete) : (erb :index)
       else
-        @player_to_register = players.size + 1
-        erb :player_reg_form, locals: {player_to_register: @player_to_register}
+        erb :player_reg_form      
       end
     end
   end
 
   get '/get_coordinates/?:error?' do
-    puts fleet1
-    fleet1.empty? ? fleet = fleet2 : fleet = fleet1
-    if fleet.length >= 1
-      session[:ship] = fleet.shift
-      @ship = session[:ship]
-      @error = params[:error]
-      erb :get_coordinates, locals: {ship: @ship, error: @error}
-    else
+    if GAME.fleet_empty_for(session[:current_player])
       "You have placed all your ships"
-      # redirect '/set_up_fleet' if fleet == 0
+    else
+    @ship = GAME.ship_to_place(session[:current_player])
+    @error = session[:error] if params[:error] != nil
+    erb :get_coordinates, locals: {ship: @ship, error: @error}
     end
   end
 
@@ -64,13 +53,16 @@ class BattleShips < Sinatra::Base
     if params
       start_cell = params[:start_cell]
       orientation = params[:orientation]
-      player = players[0]
-      ship = session[:ship]
+      player = GAME.which_is(session[:current_player])
+      ship = GAME.ship_to_place(session[:current_player])
       begin
         player.board.place(ship, start_cell.to_sym, orientation.to_sym)
+        GAME.remove_placed_ship_from_fleet(session[:current_player])
         redirect '/get_coordinates' # erb :place_success
-      rescue RuntimeError
-        erb :place_error
+      rescue => error
+        session[:error] = error.to_s
+        puts session[:error]
+        redirect '/get_coordinates/error'
       end
     end
   end

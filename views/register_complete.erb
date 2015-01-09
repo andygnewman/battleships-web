@@ -1,4 +1,4 @@
 
-<%="Thank you #{player2_name}, you will be playing against #{player1_name}"%>
-<a href="/get_coordinates">Set-up ships for <%= player1_name %></a>
+<%="Thank you #{GAME.players[1].name}, you will be playing against #{GAME.players[0].name}"%>
+<a href="/get_coordinates">Set-up ships for <%= GAME.players[0].name %></a>
 
