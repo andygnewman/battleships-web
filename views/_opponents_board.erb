@@ -1,0 +1,14 @@
+<table style="width: 40%">
+  <th>Grid</th>
+    <% [*"A".."J"].each do |column| %>
+  <th><%= column %></th>
+    <% end %>
+  <% @player.board.display_opponents_board.each_slice(10).with_index do |slice, index| %>
+    <tr>
+      <td><%= index %></td>
+      <% slice.each do |value|%>
+      <td><%= value %></td>
+      <%end%>
+    </tr>
+  <%end%>
+</table>

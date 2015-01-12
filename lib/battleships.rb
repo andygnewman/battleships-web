@@ -88,7 +88,12 @@ class BattleShips < Sinatra::Base
 
   get '/players_board' do
     @player = GAME.which_is(session[:current_player])
-    erb :players_board
+    erb :_players_board
+  end
+
+  get '/opponents_board' do
+    @player = GAME.which_is(session[:current_player])
+    erb :_opponents_board
   end
 
   # start the server if ruby file executed directly

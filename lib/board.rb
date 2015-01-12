@@ -40,7 +40,7 @@ class Board
      grid.keys.each {|g| ship_values << (cell_object(g).ship_in_cell ? "S" : "W")}
     display_array = []
     for i in 0..99 
-      display_array << "#{grid.keys[i]}#{hit_values[i]}#{ship_values[i]}"
+      display_array << "#{hit_values[i]}#{ship_values[i]}"
     end
     display_array
   end
@@ -50,7 +50,7 @@ class Board
     grid.keys.each {|g| hit_values << (grid[g].hit ? (grid[g].ship_in_cell ? "S" : "M") : "-")}
     display_array = []
     for i in 0..99 
-      display_array << "#{grid.keys[i]}#{hit_values[i]}"	
+      display_array << "#{hit_values[i]}"	
 		end
 		display_array
   end
