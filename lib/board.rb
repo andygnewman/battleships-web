@@ -2,25 +2,23 @@ class Board
 	attr_reader :grid
 
 	def initialize(content)
-		@grid = {}
-		[*"A".."J"].each do |l|
-			[*1..10].each {|n| @grid["#{l}#{"0" if n < 10}#{n}".to_sym] = content.new}
-		end
+    @grid = {}
+    columns = [*"A".."J"]
+    rows = [*1..10]
+    rows.each {|n| columns.each {|l| @grid["#{l}#{n < 10 ? "0" : ""}#{n}".to_sym] = content.new}}
 	end
 
-	def place(ship, coord, orientation = :horizontally)
-		coords = [coord]
-		ship.size.times{coords << next_coord(coords.last, orientation)}
-		put_on_grid_if_possible(coords, ship)
+  def place(ship, start_cell, orientation)
+    coords = coordinates(ship, start_cell, orientation)
+    put_on_grid_if_possible(coords, ship)
+  end
+
+	def is_fleet_sunk?
+		ships.any?(&:floating?) ? false : true
 	end
 
-	def floating_ships?
-		ships.any?(&:floating?)
-	end
-
-	def shoot_at(coordinate)
-		raise "You cannot hit the same square twice" if  grid[coordinate].hit?
-		grid[coordinate].shoot
+	def shoot_at(grid_ref)
+		grid[grid_ref].hit!
 	end
 
 	def ships
@@ -31,37 +29,74 @@ class Board
 		ships.count
 	end
 
+	def cell_object(grid_ref)
+		grid[grid_ref]
+	end
+
+	def display_players_board
+    hit_values = []
+    ship_values = []
+     grid.keys.each {|g| hit_values << (cell_object(g).hit ? "H" : "-")}
+     grid.keys.each {|g| ship_values << (cell_object(g).ship_in_cell ? "S" : "W")}
+    display_array = []
+    for i in 0..99 
+      display_array << "#{grid.keys[i]}#{hit_values[i]}#{ship_values[i]}"
+    end
+    display_array
+  end
+
+  def display_opponents_board
+    hit_values = []
+    grid.keys.each {|g| hit_values << (grid[g].hit ? (grid[g].ship_in_cell ? "S" : "M") : "-")}
+    display_array = []
+    for i in 0..99 
+      display_array << "#{grid.keys[i]}#{hit_values[i]}"	
+		end
+		display_array
+  end
+
 private
 
- 	def next_coord(coord, orientation)
-		orientation == :vertically ? next_vertical(coord) : coord.next
+ 	def coordinates(ship, start_cell, orientation)
+    coords = [start_cell]
+    ((ship.size) -1).times {coords << next_cell(coords, orientation)}
+    coords
+  end
+
+ 	def next_cell(coord, orientation)
+		orientation == :vertically ? coord.next : next_horizontal(coord)
 	end
 
-	def next_vertical(coord)
-		coord.to_s.reverse.next.reverse.to_sym
+  def next_horizontal(coords)
+    coords.last.to_s.reverse.next.reverse.to_sym
+  end
+
+	def is_a_ship?(grid_ref)
+		grid[grid_ref].ship_or_water == :ship 
 	end
 
-	def is_a_ship?(cell)
-		cell.content.respond_to?(:sunk?) 
-	end
+  def put_on_grid_if_possible(coords, ship)
+    within_grid(coords)
+    check_coords_for_ships(coords)
+    place_ship_in_all_cells(coords, ship)
+  end
 
-	def any_coord_not_on_grid?(coords)
-		(grid.keys & coords) != coords
-	end
+  def within_grid(coords)
+    raise 'You cannot place a ship outside the grid' unless grid.keys & coords == coords
+  end
 
-	def any_coord_is_already_a_ship?(coords)
-		coords.any?{|coord| is_a_ship?(grid[coord])}
-	end
+  def check_coords_for_ships(coords)
+    raise 'You cannot place a ship on another ship' if coords.any? { |grid_ref| grid[grid_ref].ship_or_water == :ship}
+  end
 
-	def raise_errors_if_cant_place_ship(coords)
-		raise "You cannot place a ship outside of the grid" if any_coord_not_on_grid?(coords)
-		raise "You cannot place a ship on another ship" if any_coord_is_already_a_ship?(coords)
-	end
+  def place_ship_in_all_cells(coords, ship)
+    coords.each {|grid_ref| place_ship_in_a_cell(grid_ref, ship)}
+  end
 
-	def put_on_grid_if_possible(coords, ship)
-		raise_errors_if_cant_place_ship(coords)
-		coords.each{|coord|grid[coord].content = ship}
-	end
+  def place_ship_in_a_cell(grid_ref, ship)
+    grid[grid_ref].ship_in_cell!(ship)
+  end
+
 
 end
 
