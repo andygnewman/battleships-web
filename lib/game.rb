@@ -27,8 +27,12 @@ class Game
 		@players.count == 2
 	end
 
-	def return_other_player_name(current_player)
+	def opponent_name(current_player)
 		@players.reject { |player| player.name == current_player }.first.name
+	end
+
+	def opponent_object(current_player)
+		@players.reject { |player| player.name == current_player }.first
 	end
 
 	def which_is(current_player)

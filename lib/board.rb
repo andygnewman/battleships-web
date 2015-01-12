@@ -18,11 +18,11 @@ class Board
 	end
 
 	def shoot_at(grid_ref)
-		grid[grid_ref].hit!
+		cell_object(grid_ref.to_sym).hit!
 	end
 
-	def ships
-		grid.values.select{|cell|is_a_ship?(cell)}.map(&:content).uniq
+	def ships 
+		grid.values.select{|cell|is_a_ship?(cell)}.map(&:ship_object).uniq
 	end
 
 	def ships_count
@@ -63,16 +63,16 @@ private
     coords
   end
 
- 	def next_cell(coord, orientation)
-		orientation == :vertically ? coord.next : next_horizontal(coord)
+ 	def next_cell(coords, orientation)
+		orientation == :vertical ? coords.last.next : next_horizontal(coords)
 	end
 
   def next_horizontal(coords)
     coords.last.to_s.reverse.next.reverse.to_sym
   end
 
-	def is_a_ship?(grid_ref)
-		grid[grid_ref].ship_or_water == :ship 
+	def is_a_ship?(cell)
+		cell.ship_or_water == :ship 
 	end
 
   def put_on_grid_if_possible(coords, ship)

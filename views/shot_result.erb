@@ -1,0 +1,9 @@
+<!-- display message from shot here -->
+
+<%= erb :_opponents_board %>
+
+<% if GAME.opponent_object(session[:current_player]).board.is_fleet_sunk? %>
+  <% redirect '/winner' %>
+  <% else %>
+  <a href='/next_player_turn'>Next Player Turn</a>
+  <% end %>

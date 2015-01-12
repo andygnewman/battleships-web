@@ -9,7 +9,7 @@ class Cell
   def hit!
     raise 'This cell has already been hit.' if hit
     @hit = true
-    ship_in_cell ? hit_ship_actions : (p 'You missed!')
+    ship_in_cell ? hit_ship_actions : 'You missed!'
   end
 
   def hit_ship_actions
@@ -30,6 +30,6 @@ class Cell
   end
 
   def hit_ship_message
-      p (ship_object.sunk?) ? "You sank my #{ship_object.type}!" : "You hit my #{ship_object.type}!"
+      ship_object.sunk? ? "You sank my #{ship_object.type}!" : "You hit my #{ship_object.type}!"
   end
 end

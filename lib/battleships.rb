@@ -41,8 +41,7 @@ class BattleShips < Sinatra::Base
 
   get '/switch_players' do
     if GAME.has_two_players? 
-      puts GAME.return_other_player_name(session[:current_player])
-      session[:current_player] = GAME.return_other_player_name(session[:current_player])
+      session[:current_player] = GAME.opponent_name(session[:current_player])
     else
       @msg = "You need to have two players registered before you can switch"
       erb :index, locals: {msg: @msg }     
@@ -77,14 +76,51 @@ class BattleShips < Sinatra::Base
       begin
         player.board.place(ship, start_cell.to_sym, orientation.to_sym)
         GAME.remove_placed_ship_from_fleet(session[:current_player])
-        redirect '/get_coordinates' # erb :place_success
+        redirect '/get_coordinates' 
       rescue => error
         session[:error] = error.to_s
-        puts session[:error]
         redirect '/get_coordinates/error'
       end
     end
   end
+
+  get '/play_the_game' do
+    if GAME.has_two_players? && (GAME.fleet_empty_for(session[:current_player]) && GAME.fleet_empty_for(GAME.opponent_name(session[:current_player])))
+      redirect '/take_shot'
+    else
+      redirect '/'
+    end
+  end
+
+  get '/take_shot/?:error?' do
+    @error = session[:error] if params[:error] != nil
+    erb :take_shot
+  end
+
+  get '/shot_result/?:error?' do
+    if params[:target_cell]
+      begin
+        GAME.opponent_object(session[:current_player]).board.shoot_at(params[:target_cell])
+      rescue => error
+        session[:error] = error.to_s
+        redirect '/take_shot/error'
+      end
+      erb :shot_result
+    else
+      session[:error] = 'You need to enter a target cell'
+      redirect '/take_shot/error'
+    end
+  end
+
+  get '/shot_result' do
+    erb :shot_result
+  end
+
+  get '/next_player_turn' do
+    session[:current_player] = GAME.opponent_name(session[:current_player])
+    redirect '/take_shot'
+  end
+
 
   get '/players_board' do
     @player = GAME.which_is(session[:current_player])
