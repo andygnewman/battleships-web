@@ -3,11 +3,15 @@
   <%= "#{GAME.players[0].name} and #{GAME.players[1].name} are at war" if GAME.has_two_players? %>
 </section>
 <ul id="menu">
-  <section id="player-status">Current Player: <% if GAME.has_a_player? %> 
-                    <%= session[:current_player] %> <a href="/switch_players"> Switch Players </a>
-                  <% else %>
-                     No Players Registered
-                  <% end %>
+  <section id="player-status">Current Player: 
+    <% if GAME.has_a_player? %> 
+      <%= session[:current_player] %> 
+        <% if GAME.has_two_players? %>
+          <a href="/switch_players"> Switch Players </a>
+        <% end %>
+    <% else %>
+      No Players Registered
+    <% end %>
   </section>
   <% if GAME.ships_placed? %>
     <li><a href="/play_the_game">Play the Game</a></li>

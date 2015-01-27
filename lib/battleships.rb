@@ -1,5 +1,6 @@
 require 'active_support/all'
 require 'sinatra'
+require 'rack-flash'
 require_relative 'game'
 require_relative 'player'
 require_relative 'board'
@@ -11,6 +12,8 @@ class BattleShips < Sinatra::Base
 
   set :views, Proc.new { File.join(root, "..", "views") }
   enable :sessions
+  use Rack::Flash
+  use Rack::MethodOverride
   
   GAME = Game.new
 
@@ -34,6 +37,7 @@ class BattleShips < Sinatra::Base
   post '/register' do
     GAME.add_player(params[:player_name])
     session[:current_player] = params[:player_name]
+    GAME.has_two_players? ? flash[:notice] = 'You can now place your ships.' : flash[:notice] = 'You can now place your ships or register Player 2.'
     redirect to('/')
   end
 
