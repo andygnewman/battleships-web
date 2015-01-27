@@ -1,15 +1,23 @@
 <p> <%= @msg %> </p>
-<p></p>
-Current Player: <%= GAME.has_a_player? ? session[:current_player] : "No Players Registered" %> <a href="/switch_players"> Switch Players </a>
-<p></p>
-<a href="/new_game"> New Game </a>
-<p></p>
-<a href="/register"> Register A Player </a>
-<p></p>
-<a href="/get_coordinates"> Place Ships </a>
-<p></p>
-<a href="/play_the_game"> Play the Game </a>
-<p></p>
-<a href="/players_board"> Display players board </a>
-<p></p>
-<a href="/opponents_board"> Display opponents board </a>
+<ul id="menu">
+  <section id="player-status">Current Player: <% if GAME.has_a_player? %> 
+                    <%= session[:current_player] %> <a href="/switch_players"> Switch Players </a>
+                  <% else %>
+                     No Players Registered
+                  <% end %>
+  </section>
+  <% if GAME.ships_placed? %>
+    <li><a href="/play_the_game">Play the Game</a></li>
+  <% end %>
+  <% if GAME.has_a_player? %>
+    <% if !GAME.has_two_players? %>
+      <li><a href="/register">Register Player 2</a></li>
+    <% end %>
+    <li><a href="/get_coordinates">Place Ships</a></li>
+    <li><a href="/new_game">Start Again</a></li>
+  <% else %>
+    <li><a href="/register">Register Player 1</a></li>
+  <% end %>
+<!--   <li><a href="/players_board"> Display players board </a></li>
+  <li><a href="/opponents_board"> Display opponents board </a></li> -->
+</ul>

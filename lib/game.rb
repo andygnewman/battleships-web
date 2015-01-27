@@ -5,6 +5,7 @@ class Game
 	def initialize
 		@fleets = []
 		@players = []
+		@ships_placed = false
 	end
 
 	def add_player(player)
@@ -18,6 +19,10 @@ class Game
 	# def add_fleet(fleet)
 	# 	@fleets << fleet
 	# end
+
+	def ships_placed?
+		@ships_placed
+	end
 
 	def has_a_player?
 		@players.count > 0

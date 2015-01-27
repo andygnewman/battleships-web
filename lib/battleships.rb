@@ -15,13 +15,16 @@ class BattleShips < Sinatra::Base
   GAME = Game.new
 
   get '/' do
+    if session[:current_player]
+      @current_player = session[:current_player]
+    end
     erb :index
   end
 
   get '/new_game' do
     GAME.fleets.clear
     GAME.players.clear
-    erb :index
+    redirect to('/')
   end
 
   get '/register' do
