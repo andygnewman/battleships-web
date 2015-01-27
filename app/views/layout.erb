@@ -3,7 +3,9 @@
 
 <head>
   <title>Battleships</title>
-	<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/grid.css">
+  <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
 </head>
 
 <body>
@@ -16,20 +18,24 @@
   <section id="main">
     <%= erb :_flash %>
 
-    <section id="col-1-5">
-      <%= erb :_left_hand_nav %>
-    </section>
+    <section class="grid">
 
-    <section id="col-1-5">
-      <%= yield %>
-    </section>
-
-    <section id="col-3-5">
-
-      <section id="row-1-2">
+      <section class="col-1-5">
+        <%= erb :_left_hand_nav %>
       </section>
 
-      <section id="row-1-2">
+      <section class="col-1-5">
+        <%= yield %>
+      </section>
+
+      <section class="col-3-5">
+
+        <section class="row-1-2">
+        </section>
+
+        <section class="row-1-2">
+        </section>
+
       </section>
 
     </section>
