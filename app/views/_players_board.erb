@@ -1,14 +1,16 @@
-<table style="width: 40%">
-  <th>Grid</th>
-    <% [*"A".."J"].each do |column| %>
-  <th><%= column %></th>
-    <% end %>
-  <% GAME.which_is(session[:current_player]).board.display_players_board.each_slice(10).with_index do |slice, index| %>
-    <tr>
-      <td><%= "#{index +1 < 10 ? "0" : ""}#{index + 1}" %></td>
-      <% slice.each do |value|%>
-      <td><%= value %></td>
-      <%end%>
-    </tr>
-  <%end%>
-</table>
+<% if session[:game_in_progress] || session[:placing_ships] %>
+  <table style="width: 40%">
+    <th>Grid</th>
+      <% [*"A".."J"].each do |column| %>
+    <th><%= column %></th>
+      <% end %>
+    <% GAME.which_is(session[:current_player]).board.display_players_board.each_slice(10).with_index do |slice, index| %>
+      <tr>
+        <td><%= "#{index +1 < 10 ? "0" : ""}#{index + 1}" %></td>
+        <% slice.each do |value|%>
+        <td><%= value %></td>
+        <%end%>
+      </tr>
+    <%end%>
+  </table>
+<% end %>

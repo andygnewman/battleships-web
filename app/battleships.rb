@@ -21,6 +21,7 @@ class BattleShips < Sinatra::Base
     if session[:current_player]
       @current_player = session[:current_player]
     end
+    session[:game_in_progress], session[:placing_ships] = false
     erb :index
   end
 
@@ -48,6 +49,7 @@ class BattleShips < Sinatra::Base
 
 
   get '/get_coordinates' do
+      session[:placing_ships] = true
       if GAME.fleet_empty_for(session[:current_player])
         erb :all_fleet_ships_placed
       else
@@ -72,6 +74,11 @@ class BattleShips < Sinatra::Base
       end
         redirect '/get_coordinates'
     end
+  end
+
+  get '/start_game' do
+    session[:game_in_progress] = true
+    redirect to('/take_shot')
   end
 
   get '/take_shot' do
