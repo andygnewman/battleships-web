@@ -28,33 +28,22 @@ class BattleShips < Sinatra::Base
   end
 
   get '/register' do
-    if GAME.has_two_players?
-      @msg = "You already have 2 players registered, either place ships or start game"
-      erb :index, locals: {msg: @msg }
-    else
-      if params[:player_name]
-      GAME.add_player(params[:player_name])
-      session[:current_player] = params[:player_name]
-      GAME.has_two_players? ? (erb :register_complete) : (erb :index)
-      else
-        erb :player_reg_form      
-      end
-    end
+    erb :player_reg_form      
+  end
+
+  post '/register' do
+    GAME.add_player(params[:player_name])
+    session[:current_player] = params[:player_name]
+    redirect to('/')
   end
 
   get '/switch_players' do
-    if GAME.has_two_players? 
       session[:current_player] = GAME.opponent_name(session[:current_player])
-    else
-      @msg = "You need to have two players registered before you can switch"
-      erb :index, locals: {msg: @msg }     
-    end
       erb :index
   end
 
 
   get '/get_coordinates/?:error?' do
-    if session[:current_player]
       if GAME.fleet_empty_for(session[:current_player])
         erb :all_fleet_ships_placed
       else
@@ -64,10 +53,6 @@ class BattleShips < Sinatra::Base
       @error = session[:error] if params[:error] != nil
       erb :get_coordinates, locals: {ship: @ship, error: @error, ship_type: @ship_type, ship_size: @ship_size}
       end
-    else
-      @msg = "You need to register before you can place ships"
-      erb :index, locals: {msg: @msg } 
-    end     
   end
 
   get '/place_ship' do
