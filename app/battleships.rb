@@ -47,15 +47,14 @@ class BattleShips < Sinatra::Base
   end
 
 
-  get '/get_coordinates/?:error?' do
+  get '/get_coordinates' do
       if GAME.fleet_empty_for(session[:current_player])
         erb :all_fleet_ships_placed
       else
       @ship = GAME.ship_to_place(session[:current_player])
       @ship_type = @ship.type.to_s.titleize
       @ship_size = @ship.size
-      @error = session[:error] if params[:error] != nil
-      erb :get_coordinates, locals: {ship: @ship, error: @error, ship_type: @ship_type, ship_size: @ship_size}
+      erb :get_coordinates
       end
   end
 
@@ -67,40 +66,30 @@ class BattleShips < Sinatra::Base
       ship = GAME.ship_to_place(session[:current_player])
       begin
         player.board.place(ship, start_cell.to_sym, orientation.to_sym)
-        GAME.remove_placed_ship_from_fleet(session[:current_player])
-        redirect '/get_coordinates' 
+        GAME.remove_placed_ship_from_fleet(session[:current_player]) 
       rescue => error
-        session[:error] = error.to_s
-        redirect '/get_coordinates/error'
+        flash[:notice] = error.to_s
       end
+        redirect '/get_coordinates'
     end
   end
 
-  get '/play_the_game' do
-    if GAME.has_two_players? && (GAME.fleet_empty_for(session[:current_player]) && GAME.fleet_empty_for(GAME.opponent_name(session[:current_player])))
-      redirect '/take_shot'
-    else
-      redirect '/'
-    end
-  end
-
-  get '/take_shot/?:error?' do
-    @error = session[:error] if params[:error] != nil
+  get '/take_shot' do
     erb :take_shot
   end
 
-  get '/shot_result/?:error?' do
+  get '/shot_result' do
     if params[:target_cell]
       begin
         GAME.opponent_object(session[:current_player]).board.shoot_at(params[:target_cell])
       rescue => error
-        session[:error] = error.to_s
-        redirect '/take_shot/error'
+        flash[:notice] = error.to_s
+        redirect '/take_shot'
       end
       erb :shot_result
     else
-      session[:error] = 'You need to enter a target cell'
-      redirect '/take_shot/error'
+      flash[:notice] = 'You need to enter a target cell'
+      redirect '/take_shot'
     end
   end
 
@@ -111,17 +100,6 @@ class BattleShips < Sinatra::Base
   get '/next_player_turn' do
     session[:current_player] = GAME.opponent_name(session[:current_player])
     redirect '/take_shot'
-  end
-
-
-  get '/players_board' do
-    @player = GAME.which_is(session[:current_player])
-    erb :_players_board
-  end
-
-  get '/opponents_board' do
-    @player = GAME.which_is(session[:current_player])
-    erb :_opponents_board
   end
 
   # start the server if ruby file executed directly

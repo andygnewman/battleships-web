@@ -1,7 +1,3 @@
-<p> <%= @msg %> </p>
-<section id="battle">
-  <%= "#{GAME.players[0].name} and #{GAME.players[1].name} are at war" if GAME.has_two_players? %>
-</section>
 <ul id="menu">
   <section id="player-status">Current Player: 
     <% if GAME.has_a_player? %> 
@@ -13,9 +9,9 @@
       No Players Registered
     <% end %>
   </section>
-  <% if GAME.ships_placed? %>
-    <li><a href="/play_the_game">Play the Game</a></li>
-  <% end %>
+    <% if GAME.both_fleets_placed? %>
+      <li><a href="/take_shot">Play the Game</a></li>
+    <% end %>
   <% if GAME.has_a_player? %>
     <% if !GAME.has_two_players? %>
       <li><a href="/register">Register Player 2</a></li>
@@ -25,6 +21,4 @@
   <% else %>
     <li><a href="/register">Register Player 1</a></li>
   <% end %>
-<!--   <li><a href="/players_board"> Display players board </a></li>
-  <li><a href="/opponents_board"> Display opponents board </a></li> -->
 </ul>

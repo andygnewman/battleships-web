@@ -18,7 +18,9 @@ class Board
 	end
 
 	def shoot_at(grid_ref)
-		cell_object(grid_ref.to_sym).hit!
+    grid_ref_sym = grid_ref.to_sym
+		raise 'You can\'t shoot outside the grid.' if !grid.keys.include?(grid_ref_sym)
+    cell_object(grid_ref_sym).hit!
 	end
 
 	def ships 

@@ -5,7 +5,6 @@ class Game
 	def initialize
 		@fleets = []
 		@players = []
-		@ships_placed = false
 	end
 
 	def add_player(player)
@@ -20,8 +19,8 @@ class Game
 	# 	@fleets << fleet
 	# end
 
-	def ships_placed?
-		@ships_placed
+	def both_fleets_placed?
+		(has_two_players? && @fleets == [[],[]]) ? true : false
 	end
 
 	def has_a_player?
