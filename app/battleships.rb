@@ -10,6 +10,10 @@ require_relative 'fleet'
 
 class BattleShips < Sinatra::Base
 
+  def switch_players
+    session[:current_player] = GAME.opponent_name(session[:current_player])
+  end
+
   # set :views, Proc.new { File.join(root, "..", "views") }
   enable :sessions
   use Rack::Flash
@@ -32,18 +36,19 @@ class BattleShips < Sinatra::Base
   end
 
   get '/register' do
+    session[:placing_ships] = false
     erb :player_reg_form      
   end
 
   post '/register' do
     GAME.add_player(params[:player_name])
     session[:current_player] = params[:player_name]
-    GAME.has_two_players? ? flash[:notice] = 'You can now place your ships.' : flash[:notice] = 'You can now place your ships or register Player 2.'
-    redirect to('/')
+    flash[:notice] = 'Thanks for registering, you can know place your ships'
+    redirect to('/get_coordinates')
   end
 
   get '/switch_players' do
-      session[:current_player] = GAME.opponent_name(session[:current_player])
+      switch_players
       erb :index
   end
 
@@ -74,13 +79,19 @@ class BattleShips < Sinatra::Base
       redirect '/get_coordinates'
   end
 
-  get '/start_game' do
-    session[:game_in_progress] = true
+  get '/ready_to_play' do
+    session[:placing_ships] = false
+    switch_players
     redirect to('/take_shot')
   end
 
   get '/take_shot' do
+    session[:grid_display] = true
     erb :take_shot
+  end
+
+  get '/take_shot_interstitial' do
+    erb :take_shot_interstitial
   end
 
   get '/shot_result' do
@@ -99,8 +110,9 @@ class BattleShips < Sinatra::Base
   end
 
   get '/next_player_turn' do
-    session[:current_player] = GAME.opponent_name(session[:current_player])
-    redirect '/take_shot'
+    switch_players
+    session[:grid_display] = false
+    redirect '/take_shot_interstitial'
   end
 
   # start the server if ruby file executed directly

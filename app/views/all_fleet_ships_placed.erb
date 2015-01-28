@@ -1,3 +1,7 @@
 You have placed all your ships.
-<p></p>
-<a href="/"> Return to Main Menu </a>
+
+<% if GAME.has_two_players? %>
+  <a href="/ready_to_play"> Get ready for battle! </a>
+<% else %>
+  <a href="/register"> Register Player 2 </a>
+<% end %>

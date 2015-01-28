@@ -1,4 +1,4 @@
-<% if session[:game_in_progress] || session[:placing_ships] %>
+<% if session[:grid_display] || session[:placing_ships] %>
   <table style="width: 40%">
     <th>Grid</th>
       <% [*"A".."J"].each do |column| %>
