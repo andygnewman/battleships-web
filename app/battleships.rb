@@ -37,6 +37,7 @@ class BattleShips < Sinatra::Base
 
   get '/register' do
     session[:placing_ships] = false
+    session[:current_player] = nil
     erb :player_reg_form      
   end
 
@@ -51,7 +52,6 @@ class BattleShips < Sinatra::Base
       switch_players
       erb :index
   end
-
 
   get '/get_coordinates' do
       session[:placing_ships] = true
@@ -82,7 +82,8 @@ class BattleShips < Sinatra::Base
   get '/ready_to_play' do
     session[:placing_ships] = false
     switch_players
-    redirect to('/take_shot')
+    erb :start_the_shooting
+    # redirect to('/take_shot')
   end
 
   get '/take_shot' do
