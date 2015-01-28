@@ -29,6 +29,7 @@ td, th {
   border-width: 2px;
   border-color: grey;
   padding: 0.2em;
+  text-align: center;
 }
 
 .game-summary {
@@ -56,4 +57,11 @@ a:link, a:visited, a:hover, a:active {
   color: white;
   text-decoration: none;
 
+}
+
+#flash {
+  font-weight: bold;
+  color: red;
+  font-size: 1.5em;
+  padding-top: 0.5em;
 }

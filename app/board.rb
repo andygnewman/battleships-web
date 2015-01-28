@@ -11,7 +11,6 @@ class Board
   def place(ship, grid_ref, orientation)
     start_cell = normalize_grid_ref(grid_ref)
     coords = coordinates(ship, start_cell, orientation.to_sym)
-    p coords
     put_on_grid_if_possible(coords, ship)
   end
 
