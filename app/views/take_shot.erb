@@ -2,14 +2,21 @@
 <p></p>
 <%= session[:current_player] %> Your turn to shoot!
   <p></p>
-  <h1><%= @error %></h1>
-  <p></p>
   Please enter the coordinates for your shot..
   <p></p>
 
-<form action='/shot_result'> 
-  Target Cell: <input type="text" name=<%="target_cell"%> /> (A01 to J10)
-  <p></p>
-  <input type="submit" value=<%="submit"%> />
+<select name="column" form="target_coordinates">
+  <% [*"A".."J"].each do |column| %>
+    <option value=<%= column %>><%= column %></option>
+  <% end %>
+</select>
 
+<select name="row" form="target_coordinates">
+  <% [*1..10].each do |row| %>
+    <option value=<%= row %>><%= row %></option>
+  <% end %>
+</select>
+
+<form action='/shot_result' id="target_coordinates"> 
+  <input type="submit" value="submit">
 </form>

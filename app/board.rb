@@ -10,7 +10,7 @@ class Board
 
   def place(ship, start_cell, orientation)
     start_cell = start_cell[0] + "0" + start_cell[1] if start_cell.length == 2
-    coords = coordinates(ship, start_cell, orientation)
+    coords = coordinates(ship, start_cell.to_sym, orientation.to_sym)
     put_on_grid_if_possible(coords, ship)
   end
 
@@ -19,12 +19,14 @@ class Board
 	end
 
 	def shoot_at(grid_ref)
+    grid_ref = grid_ref[0] + "0" + grid_ref[1] if grid_ref.length == 2
     grid_ref_sym = grid_ref.to_sym
 		raise 'You can\'t shoot outside the grid.' if !grid.keys.include?(grid_ref_sym)
     cell_object(grid_ref_sym).hit!
 	end
 
   def shot_result(grid_ref)
+    grid_ref = grid_ref[0] + "0" + grid_ref[1] if grid_ref.length == 2
     grid_ref_sym = grid_ref.to_sym
     cell_object(grid_ref_sym).ship_in_cell? ? cell_object(grid_ref_sym).hit_ship_message : "Miss!"
   end

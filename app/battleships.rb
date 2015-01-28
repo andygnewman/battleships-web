@@ -61,19 +61,17 @@ class BattleShips < Sinatra::Base
   end
 
   get '/place_ship' do
-    if params
       start_cell = params[:column]+params[:row]
       orientation = params[:orientation]
       player = GAME.which_is(session[:current_player])
       ship = GAME.ship_to_place(session[:current_player])
       begin
-        player.board.place(ship, start_cell.to_sym, orientation.to_sym)
+        player.board.place(ship, start_cell, orientation)
         GAME.remove_placed_ship_from_fleet(session[:current_player]) 
       rescue => error
         flash[:notice] = error.to_s
       end
-        redirect '/get_coordinates'
-    end
+      redirect '/get_coordinates'
   end
 
   get '/start_game' do
@@ -86,19 +84,14 @@ class BattleShips < Sinatra::Base
   end
 
   get '/shot_result' do
-    if params[:target_cell]
-      begin
-        GAME.opponent_object(session[:current_player]).board.shoot_at(params[:target_cell])
-      rescue => error
-        flash[:notice] = error.to_s
-        redirect '/take_shot'
-      end
-      @grid_ref = params[:target_cell]
-      erb :shot_result
-    else
-      flash[:notice] = 'You need to enter a target cell'
+    @target_cell = params[:column]+params[:row]
+    begin
+      GAME.opponent_object(session[:current_player]).board.shoot_at(@target_cell)
+    rescue => error
+      flash[:notice] = error.to_s
       redirect '/take_shot'
     end
+    erb :shot_result
   end
 
   get '/shot_result' do
