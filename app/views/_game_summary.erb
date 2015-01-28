@@ -1,0 +1,27 @@
+<section class="col-2-3">
+  <table class="game-summary">
+    <th>
+      <td>Players</td><td>Shots Received</td><td>Hits Suffered</td><td>Ships Sunk</td>
+    </th>
+    <tr>
+      <% if GAME.players[0] %>
+        <td><%= GAME.players[0].name || "Player 1" %></td>
+        <td><%= GAME.which_is(GAME.players[0].name).board.shots_received %></td>
+        <td><%= GAME.which_is(GAME.players[0].name).board.ship_hits_suffered %></td>
+        <td><%= GAME.which_is(GAME.players[0].name).board.ships_sunk %></td>
+      <% else %>
+        <td>Player1</td><td></td><td></td><td></td>
+      <% end %>
+    </tr>
+    <tr>
+      <% if GAME.players[1] %>
+        <td><%= GAME.players[1].name || "Player 1" %></td>
+        <td><%= GAME.which_is(GAME.players[1].name).board.shots_received %></td>
+        <td><%= GAME.which_is(GAME.players[1].name).board.ship_hits_suffered %></td>
+        <td><%= GAME.which_is(GAME.players[1].name).board.ships_sunk %></td>
+      <% else %>
+        <td>Player1</td><td></td><td></td><td></td>
+      <% end %>
+    </tr>
+  </table>
+</section>  

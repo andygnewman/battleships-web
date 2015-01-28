@@ -35,9 +35,21 @@ class Board
 		grid.values.select{|cell|is_a_ship?(cell)}.map(&:ship_object).uniq
 	end
 
+  def shots_received
+    grid.values.select{|cell|is_hit?(cell)}.length
+  end
+
+  def ship_hits_suffered
+    grid.values.select{|cell| (is_hit?(cell) && is_a_ship?(cell)) }.length
+  end
+
 	def ships_count
 		ships.count
 	end
+
+  def ships_sunk
+    ships.reject(&:floating?).count
+  end
 
 	def cell_object(grid_ref)
 		grid[grid_ref]
@@ -81,6 +93,10 @@ private
 	def is_a_ship?(cell)
 		cell.ship_in_cell?
 	end
+
+  def is_hit?(cell)
+    cell.hit
+  end
 
   def put_on_grid_if_possible(coords, ship)
     within_grid(coords)
