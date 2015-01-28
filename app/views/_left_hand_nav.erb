@@ -1,8 +1,0 @@
-<ul id="menu">
-  <section id="player-status">Current Player: 
-    <% if GAME.has_a_player? %> 
-      <%= session[:current_player] || "registering" %> 
-    <% else %>
-      No Players Registered
-    <% end %>
-</ul>

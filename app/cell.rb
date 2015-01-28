@@ -19,13 +19,9 @@ class Cell
   def ship_in_cell?
     ship_object != nil
   end
-  
-  # def ship_or_water
-  #   ship_object != nil ? :ship : :water
-  # end
 
   def hit_ship_message
-      ship_object.sunk? ? "You sank my #{ship_type_in_cell}!" : "You hit my #{ship_type_in_cell}!"
+      ship_object.sunk? ? "You sank my #{ship_type_in_cell.to_s.titleize}!" : "You hit my #{ship_type_in_cell.to_s.titleize}!"
   end
 
   private
