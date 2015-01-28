@@ -30,6 +30,23 @@
 .col-1-5 {
   width: 20%;
 }
+
+.col-2-5 {
+  width: 40%;
+}
+
 .col-3-5 {
   width: 60%;
+}
+
+.row-1-2 {
+  height: 50%;
+}
+
+.row-1-4 {
+  height: 25%;
+}
+
+.row-3-4 {
+  height: 75%;
 }

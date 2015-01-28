@@ -62,7 +62,7 @@ class BattleShips < Sinatra::Base
 
   get '/place_ship' do
     if params
-      start_cell = params[:start_cell]
+      start_cell = params[:column]+params[:row]
       orientation = params[:orientation]
       player = GAME.which_is(session[:current_player])
       ship = GAME.ship_to_place(session[:current_player])
@@ -93,6 +93,7 @@ class BattleShips < Sinatra::Base
         flash[:notice] = error.to_s
         redirect '/take_shot'
       end
+      @grid_ref = params[:target_cell]
       erb :shot_result
     else
       flash[:notice] = 'You need to enter a target cell'

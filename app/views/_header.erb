@@ -1,3 +1,18 @@
 <section id="battle">
+  <section class="row-3-4">
+    <table>
+      <th>
+        <td>Players</td><td>Ships To Place</td><td>Shots Taken</td><td>Hits Achieved</td>
+      </th>
+      <tr>
+        <td>Player1</td><td></td><td></td><td></td>
+      </tr>
+      <tr>
+        <td>Player2</td><td></td><td></td><td></td>
+      </tr>
+    </table>
+  </section>  
+  <section class="row-1-4">
   <%= "#{GAME.players[0].name} and #{GAME.players[1].name} are at war" if GAME.has_two_players? %>
+  </section>
 </section>

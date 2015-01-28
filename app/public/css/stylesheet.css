@@ -11,4 +11,5 @@ body {
 
 #main {
   width: 80%;
+  float: left;
 }
