@@ -54,7 +54,7 @@ class Board
 
   def display_opponents_board
     display_array = []
-    grid.keys.each {|g| display_array << (grid[g].hit ? (grid[g].ship_in_cell? ? "S" : "M") : "-")}
+    grid.keys.each {|g| display_array << (grid[g].hit ? (grid[g].ship_in_cell? ? "S" + grid[g].ship_initial : "M") : "-")}
     display_array
   end
 

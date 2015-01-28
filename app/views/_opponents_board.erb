@@ -10,14 +10,19 @@
       <tr>
         <td><%= indexed_rows[index] %></td>
         <% slice.each do |value|%>
-        <td style="font-weight: <%= ['M','S'].include?(value) ? 'bold' : 'normal' %>" ><%= value %></td>
+        <td style="font-weight: <%= ['M','S'].include?(value[0]) ? 'bold' : 'normal' %>" ><%= value %></td>
         <%end%>
       </tr>
     <%end%>
   </table>
 
 <h3>Key:</h3>
-<p> - unknown, yet to be shot at.</p>
-<p><span style="font-weight: bold;">S</span> you hit a ship.</p>
+<p>- unknown, yet to be shot at.</p>
+<p><span style="font-weight: bold;">Sa,bd,s,p*</span> you hit a ship.</p>
 <p><span style="font-weight: bold;">M</span> you hit water.</p>
+<p>a = aircraft carrier (5 cells)</p>
+<p>a = battleship (4 cells)</p>
+<p>d = destroyer (3 cells)</p>
+<p>s = submarine (3 cells)</p>
+<p>p = patrol boat (2 cells)</p>
 <% end %>

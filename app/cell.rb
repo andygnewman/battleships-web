@@ -21,7 +21,11 @@ class Cell
   end
 
   def hit_ship_message
-      ship_object.sunk? ? "You sank my #{ship_type_in_cell.to_s.titleize}!" : "You hit my #{ship_type_in_cell.to_s.titleize}!"
+    ship_object.sunk? ? "You sank my #{ship_type_in_cell.to_s.titleize}!" : "You hit my #{ship_type_in_cell.to_s.titleize}!"
+  end
+
+  def ship_initial
+    ship_object.type[0]
   end
 
   private
