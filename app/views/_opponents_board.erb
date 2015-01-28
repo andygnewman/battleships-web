@@ -1,9 +1,9 @@
 <% if session[:grid_display] %>
-  <table style="width: 40%">
+  <table class="opponents-grid">
     <th colspan="11">Your shots at <%= GAME.opponent_name(session[:current_player]) %></th>
       <tr><td></td>
       <% [*"A".."J"].each do |column| %>
-    <th><%= column %></th>
+    <td><%= column %></td>
       <% end %></tr>
     <% GAME.opponent_object(session[:current_player]).board.display_opponents_board.each_slice(10).with_index do |slice, index| %>
       <tr>
