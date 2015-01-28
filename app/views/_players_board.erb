@@ -1,12 +1,13 @@
 <% if session[:grid_display] || session[:placing_ships] %>
+<% indexed_rows = ["A","B","C","D","E","F","G","H","I","J"] %>
   <table class="players-grid">
     <th colspan="11">Your grid</th>
-      <tr><td></td><% [*"A".."J"].each do |column| %>
+      <tr><td></td><% [*1..10].each do |column| %>
     <td><%= column %></td>
       <% end %></tr>
-    <% GAME.which_is(session[:current_player]).board.display_players_board.each_slice(10).with_index do |slice, index| %>
+    <% GAME.players_board.each_slice(10).with_index do |slice, index| %>
       <tr>
-        <td><%= index + 1 %></td>
+        <td><%= indexed_rows[index] %></td>
         <% slice.each do |value|%>
         <td style="font-weight: <%= ['M','S'].include?(value) ? 'bold' : 'normal' %>" ><%= value %></td>
         <%end%>

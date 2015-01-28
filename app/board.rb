@@ -3,49 +3,40 @@ class Board
 
 	def initialize(content)
     @grid = {}
-    columns = [*"A".."J"]
-    rows = [*1..10]
-    rows.each {|n| columns.each {|l| @grid["#{l}#{n < 10 ? "0" : ""}#{n}".to_sym] = content.new}}
+    columns = [*1..10]
+    rows = [*"A".."J"]
+    rows.each {|l| columns.each {|n| @grid["#{l}#{n < 10 ? "0" : ""}#{n}".to_sym] = content.new}}
 	end
 
-  def place(ship, start_cell, orientation)
-    start_cell = start_cell[0] + "0" + start_cell[1] if start_cell.length == 2
-    coords = coordinates(ship, start_cell.to_sym, orientation.to_sym)
+  def place(ship, grid_ref, orientation)
+    start_cell = normalize_grid_ref(grid_ref)
+    coords = coordinates(ship, start_cell, orientation.to_sym)
+    p coords
     put_on_grid_if_possible(coords, ship)
   end
 
-	def is_fleet_sunk?
+  def is_fleet_sunk?
 		ships.any?(&:floating?) ? false : true
 	end
 
-	def shoot_at(grid_ref)
-    grid_ref = grid_ref[0] + "0" + grid_ref[1] if grid_ref.length == 2
-    grid_ref_sym = grid_ref.to_sym
-		raise 'You can\'t shoot outside the grid.' if !grid.keys.include?(grid_ref_sym)
-    cell_object(grid_ref_sym).hit!
+  def shoot_at(grid_ref)
+    grid_ref = normalize_grid_ref(grid_ref)
+		raise 'You can\'t shoot outside the grid.' if !grid.keys.include?(grid_ref)
+    grid[grid_ref].hit!
 	end
 
   def shot_result(grid_ref)
-    grid_ref = grid_ref[0] + "0" + grid_ref[1] if grid_ref.length == 2
-    grid_ref_sym = grid_ref.to_sym
-    cell_object(grid_ref_sym).ship_in_cell? ? cell_object(grid_ref_sym).hit_ship_message : "Miss!"
+    grid_ref = normalize_grid_ref(grid_ref)
+    grid[grid_ref].ship_in_cell? ? grid[grid_ref].hit_ship_message : "Miss!"
   end
-
-	def ships 
-		grid.values.select{|cell|is_a_ship?(cell)}.map(&:ship_object).uniq
-	end
 
   def shots_received
     grid.values.select{|cell|is_hit?(cell)}.length
   end
 
   def ship_hits_suffered
-    grid.values.select{|cell| (is_hit?(cell) && is_a_ship?(cell)) }.length
+    grid.values.select{|cell| (is_hit?(cell) && cell.ship_in_cell?) }.length
   end
-
-	def ships_count
-		ships.count
-	end
 
   def ships_sunk
     ships.reject(&:floating?).count
@@ -68,7 +59,7 @@ class Board
   end
 
 private
-
+  
  	def coordinates(ship, start_cell, orientation)
     coords = [start_cell]
     ((ship.size) -1).times {coords << next_cell(coords, orientation)}
@@ -76,16 +67,12 @@ private
   end
 
  	def next_cell(coords, orientation)
-		orientation == :vertical ? coords.last.next : next_horizontal(coords)
+		orientation == :horizontal ? coords.last.next : next_vertical(coords)
 	end
 
-  def next_horizontal(coords)
+  def next_vertical(coords)
     coords.last.to_s.reverse.next.reverse.to_sym
   end
-
-	def is_a_ship?(cell)
-		cell.ship_in_cell?
-	end
 
   def is_hit?(cell)
     cell.hit
@@ -113,6 +100,14 @@ private
     grid[grid_ref].ship_in_cell!(ship)
   end
 
+  def ships 
+    grid.values.select{|cell|cell.ship_in_cell?}.map(&:ship_object).uniq
+  end
+
+  def normalize_grid_ref(grid_ref)
+    normalized_grid_ref = grid_ref[0] + "0" + grid_ref[1] if grid_ref.length == 2
+    return normalized_grid_ref.to_sym 
+  end
 
 end
 

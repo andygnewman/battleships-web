@@ -1,13 +1,14 @@
 <% if session[:grid_display] %>
+<% indexed_rows = ["A","B","C","D","E","F","G","H","I","J"] %>
   <table class="opponents-grid">
-    <th colspan="11">Your shots at <%= GAME.opponent_name(session[:current_player]) %></th>
+    <th colspan="11">Your shots at <%= GAME.opponent_name %></th>
       <tr><td></td>
-      <% [*"A".."J"].each do |column| %>
+      <% [*1..10].each do |column| %>
     <td><%= column %></td>
       <% end %></tr>
-    <% GAME.opponent_object(session[:current_player]).board.display_opponents_board.each_slice(10).with_index do |slice, index| %>
+    <% GAME.opponents_board.each_slice(10).with_index do |slice, index| %>
       <tr>
-        <td><%= index +1 %></td>
+        <td><%= indexed_rows[index] %></td>
         <% slice.each do |value|%>
         <td style="font-weight: <%= ['M','S'].include?(value) ? 'bold' : 'normal' %>" ><%= value %></td>
         <%end%>

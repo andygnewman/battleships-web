@@ -15,97 +15,84 @@ class Game
 		@fleets << Fleet.new.ship_array
 	end
 
-	# def add_fleet(fleet)
-	# 	@fleets << fleet
-	# end
-
-	def both_fleets_placed?
-		(has_two_players? && @fleets == [[],[]]) ? true : false
-	end
-
-	def has_a_player?
-		@players.count > 0
-	end
-
 	def has_two_players?
-		@players.count == 2
+		players.count == 2
 	end
 
-	def opponent_name(current_player)
-		@players.reject { |player| player.name == current_player }.first.name
+	def opponent_name
+		players.reject { |player| player.name == current_player }.first.name
 	end
 
-	def opponent_object(current_player)
-		@players.reject { |player| player.name == current_player }.first
+	def opponent_object
+		players.reject { |player| player.name == current_player }.first
 	end
 
-	def which_is(current_player)
-		@players.select { |player| player.name == current_player }.first
+	def current_player_object
+		players.select { |player| player.name == current_player }.first
 	end
 
-	def fleet_empty_for(player)
-		fleets[index_for(player)].empty?
+	def shots_received(player_index)
+		players[player_index].board.shots_received
 	end
 
-	def ship_to_place(player)
-		fleets[index_for(player)][0]
+	def ship_hits_suffered(player_index)
+		players[player_index].board.ship_hits_suffered
 	end
 
-	def remove_placed_ship_from_fleet(player)
-		fleets[index_for(player)].shift
+	def ships_sunk(player_index)
+		players[player_index].board.ships_sunk
 	end
 
-	# def add_player(player)
-	# 	self.player1 ? self.player2 = player : self.player1 = player unless has_two_players?
-	# end
-
-	# def opponent
-	# 	current_player == player1 ? player2 : player1
-	# end
-
-	def shoots(coord)
-		opponent.receive_shot(coord)
-		raise "There is a winner you cannot shoot" if winner
-		switch_turns 
+	def fleet_empty?
+		fleets[index_current_player].empty?
 	end
 
-	def winner
-		current_player unless opponent.board.floating_ships?
+	def ship_to_place
+		fleets[index_current_player][0]
 	end
 
-	def ready_to_play?
-		has_two_players? and both_players_have_boards? and all_ships_placed?
+	def place_ship(start_cell, orientation)
+		current_player_object.board.place(ship_to_place, start_cell, orientation)
+	end
+
+	def remove_placed_ship_from_fleet
+		fleets[index_current_player].shift
+	end
+
+	def opponents_board
+		opponent_object.board.display_opponents_board
+	end
+
+	def players_board
+		current_player_object.board.display_players_board
+	end
+
+	def shoots(target_cell)
+		opponent_object.board.shoot_at(target_cell)
+	end
+
+	def shot_result(target_cell)
+		opponent_object.board.shot_result(target_cell)
+	end
+
+	def winner?
+		opponent_object.board.is_fleet_sunk?
 	end
 
 	def turn 
-		@turn ||= player1
-	end
-
-	# alias :current_player :turn
-
-private 
-
-	def both_players_have_five_ships?
-		(player1.board.ships_count == 5) and (player2.board.ships_count == 5) 
-	end
-
-	def both_players_have_boards?
-		player1.has_board? and player2.has_board? 
+		@turn ||= players[0].name
 	end
 
 	def switch_turns
-		turn == player1 ? self.turn = player2 : self.turn = player1
+		turn == players[0].name ? self.turn = players[1].name : self.turn = players[0].name if has_two_players?
 	end
 
-	def all_ships_placed
-		@fleets.empty?
-	end
+	alias :current_player :turn
 
-	def index_for(current_player)
+private 
+
+	def index_current_player
 		@players.index(@players.select { |player| player.name == current_player }.first)
 	end
 
-	# def has_two_players?
-	# 	!player2.nil?
-	# end
 end
