@@ -46,3 +46,10 @@ td, th {
   text-align: center;
   width: 9%;
 }
+
+a:link, a:visited, a:hover, a:active {
+  background-color: grey;
+  color: white;
+  text-decoration: none;
+
+}

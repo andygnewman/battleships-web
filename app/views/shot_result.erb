@@ -1,8 +1,6 @@
-<!-- display message from shot here -->
-
 <% if GAME.opponent_object(session[:current_player]).board.is_fleet_sunk? %>
   <% redirect '/winner' %>
   <% else %>
-  <%= GAME.opponent_object(session[:current_player]).board.shot_result(@target_cell) %>
-  <a href='/next_player_turn'>Next Player Turn</a>
+  <h2><%= GAME.opponent_object(session[:current_player]).board.shot_result(@target_cell) %></h2>
+  <p><a href='/next_player_turn'>Next Player Turn</a></p>
   <% end %>

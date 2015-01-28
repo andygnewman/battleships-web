@@ -1,6 +1,6 @@
 <% if session[:grid_display] || session[:placing_ships] %>
   <table class="players-grid">
-    <th colspan="11">Your Grid</th>
+    <th colspan="11">Your grid</th>
       <tr><td></td><% [*"A".."J"].each do |column| %>
     <td><%= column %></td>
       <% end %></tr>

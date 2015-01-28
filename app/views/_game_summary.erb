@@ -5,7 +5,7 @@
   </tr>
   <tr>
     <% if GAME.players[0] %>
-      <td><%= GAME.players[0].name || "Player 1" %></td>
+      <td><%= GAME.players[0].name %></td>
       <td><%= GAME.which_is(GAME.players[0].name).board.shots_received %></td>
       <td><%= GAME.which_is(GAME.players[0].name).board.ship_hits_suffered %></td>
       <td><%= GAME.which_is(GAME.players[0].name).board.ships_sunk %></td>
@@ -15,12 +15,12 @@
   </tr>
   <tr>
     <% if GAME.players[1] %>
-      <td><%= GAME.players[1].name || "Player 1" %></td>
+      <td><%= GAME.players[1].name %></td>
       <td><%= GAME.which_is(GAME.players[1].name).board.shots_received %></td>
       <td><%= GAME.which_is(GAME.players[1].name).board.ship_hits_suffered %></td>
       <td><%= GAME.which_is(GAME.players[1].name).board.ships_sunk %></td>
     <% else %>
-      <td>Player1</td><td></td><td></td><td></td>
+      <td>Player2</td><td></td><td></td><td></td>
     <% end %>
   </tr>
 </table> 

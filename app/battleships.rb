@@ -44,7 +44,7 @@ class BattleShips < Sinatra::Base
   post '/register' do
     GAME.add_player(params[:player_name])
     session[:current_player] = params[:player_name]
-    flash[:notice] = 'Thanks for registering, you can know place your ships'
+    flash[:notice] = "#{session[:current_player]}, thanks for registering, now place your ships"
     redirect to('/get_coordinates')
   end
 

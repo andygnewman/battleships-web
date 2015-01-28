@@ -1,11 +1,7 @@
-<a href="/"> Return to Main Menu </a>
-<p></p>
-<%= session[:current_player] %> Your turn to shoot!
-  <p></p>
-  Please enter the coordinates for your shot..
-  <p></p>
+<h2><%= session[:current_player] %>, your turn to shoot!</h2>
+<p>Please enter the coordinates for your shot..</p>
 
-<select name="column" form="target_coordinates">
+<p><select name="column" form="target_coordinates">
   <% [*"A".."J"].each do |column| %>
     <option value=<%= column %>><%= column %></option>
   <% end %>
@@ -15,8 +11,8 @@
   <% [*1..10].each do |row| %>
     <option value=<%= row %>><%= row %></option>
   <% end %>
-</select>
+</select></p>
 
-<form action='/shot_result' id="target_coordinates"> 
+<p><form action='/shot_result' id="target_coordinates"> 
   <input type="submit" value="submit">
-</form>
+</form></p>
