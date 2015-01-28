@@ -42,6 +42,10 @@ td, th {
   width: 20%;
 }
 
+table {
+  width: 100%;
+}
+
 .players-grid td, .opponents-grid td {
   text-align: center;
   width: 9%;

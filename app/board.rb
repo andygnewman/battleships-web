@@ -57,14 +57,7 @@ class Board
 
 	def display_players_board
     display_array = []
-    grid.keys.each  do |g| 
-    display_array << case 
-        when cell_object(g).hit && cell_object(g).ship_in_cell? then "S"
-        when cell_object(g).hit && !cell_object(g).ship_in_cell? then "M"
-        when !cell_object(g).hit && cell_object(g).ship_in_cell? then "s"
-        else "w"
-      end
-    end
+    grid.keys.each {|g| display_array << (grid[g].hit ? (grid[g].ship_in_cell? ? "S" : "M") : (grid[g].ship_in_cell? ? "s" : "-"))}
     display_array
   end
 

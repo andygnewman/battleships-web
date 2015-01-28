@@ -8,16 +8,16 @@
       <tr>
         <td><%= index + 1 %></td>
         <% slice.each do |value|%>
-        <td><%= value %></td>
+        <td style="font-weight: <%= ['M','S'].include?(value) ? 'bold' : 'normal' %>" ><%= value %></td>
         <%end%>
       </tr>
     <%end%>
   </table>
 
 <h3>Key:</h3>
-<p> w water, not shot at.</p>
-<p> M water, has been shot at.</p>
+<p> - water, not shot at.</p>
 <p> s ship, not shot at.</p>
-<p> S ship, has been hit.</p>
+<p> <span style="font-weight: bold;">S</span> ship, has been hit.</p>
+<p><span style="font-weight: bold;">M</span> water, has been hit.</p>
 
 <% end %>
