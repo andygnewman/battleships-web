@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'sinatra'
 gem 'activesupport'
+gem 'rack-flash3'
 
 group :developent, :test do
   gem 'capybara'

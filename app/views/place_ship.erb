@@ -1,0 +1,24 @@
+<h2>Placing ships for <%= GAME.current_player %></h2>
+<p>Please enter coordinates for <%=@ship_type%> of size <%=@ship_size%></p>
+
+<p>Start Point:</p>
+<p><select name="column" form="place_ship_coordinates">
+  <% [*"A".."J"].each do |column| %>
+    <option value=<%= column %>><%= column %></option>
+  <% end %>
+</select>
+
+<select name="row" form="place_ship_coordinates">
+  <% [*1..10].each do |row| %>
+    <option value=<%= row %>><%= row %></option>
+  <% end %>
+</select></p>
+
+<form action='/place_ship' method="post" id="place_ship_coordinates"> 
+  <p>Orientation:</p>
+
+  <p><input type="radio" name="orientation" value="horizontal" checked> horizontal</p>
+  <p><input type="radio" name="orientation" value="vertical"> vertical</p>
+  <input type="submit" value=<%="submit"%> />
+</form>
+

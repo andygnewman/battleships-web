@@ -1,0 +1,28 @@
+<% if session[:grid_display] %>
+<% indexed_rows = ["A","B","C","D","E","F","G","H","I","J"] %>
+  <table class="opponents-grid">
+    <th colspan="11">Your shots at <%= GAME.opponent_name %></th>
+      <tr><td></td>
+      <% [*1..10].each do |column| %>
+    <td><%= column %></td>
+      <% end %></tr>
+    <% GAME.opponents_board.each_slice(10).with_index do |slice, index| %>
+      <tr>
+        <td><%= indexed_rows[index] %></td>
+        <% slice.each do |value|%>
+        <td style="font-weight: <%= ['M','S'].include?(value[0]) ? 'bold' : 'normal' %>" ><%= value %></td>
+        <%end%>
+      </tr>
+    <%end%>
+  </table>
+
+<h3>Key:</h3>
+<p>- unknown, yet to be shot at.</p>
+<p><span style="font-weight: bold;">S(a,b,d,s,p*)</span> you hit a ship.</p>
+<p><span style="font-weight: bold;">M</span> you hit water.</p>
+<p>a = aircraft carrier (5 cells)</p>
+<p>a = battleship (4 cells)</p>
+<p>d = destroyer (3 cells)</p>
+<p>s = submarine (3 cells)</p>
+<p>p = patrol boat (2 cells)</p>
+<% end %>

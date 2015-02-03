@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Battleships</title>
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/css/grid.css">
+  <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+
+<body>
+
+  <section class="grid">
+    
+    <section class="row-4-20">
+    
+      <section class="col-1-3">
+        <h1>Battleships</h1>
+        <p><a style="margin-left: 5%; color: black;" href="/new_game"> new game</a></p>
+      </section>
+    
+      <section class="col-2-3">
+        <%= erb :_game_summary %>
+      </section>
+
+    </section>
+    
+    <section class="row-1-20">
+      <%= erb :_flash %>
+    </section>
+    
+    <section class="row-15-20">
+      
+      <section class="col-1-3">
+        <%= yield %>
+      </section>
+
+      <section class="col-1-3">
+        <%= erb :_opponents_board %>
+      </section>
+
+      <section class="col-1-3">
+        <%= erb :_players_board %>
+      </section>
+
+    </section>
+
+  </sectin>
+
+</body>
+
+</html>
