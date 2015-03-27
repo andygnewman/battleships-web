@@ -23,14 +23,6 @@ class Game
 		players.reject { |player| player.name == current_player }.first.name
 	end
 
-	def opponent_object
-		players.reject { |player| player.name == current_player }.first
-	end
-
-	def current_player_object
-		players.select { |player| player.name == current_player }.first
-	end
-
 	def shots_received(player_index)
 		players[player_index].board.shots_received
 	end
@@ -79,7 +71,7 @@ class Game
 		opponent_object.board.is_fleet_sunk?
 	end
 
-	def turn 
+	def turn
 		@turn ||= players[0].name
 	end
 
@@ -89,10 +81,18 @@ class Game
 
 	alias :current_player :turn
 
-private 
+private
 
 	def index_current_player
 		@players.index(@players.select { |player| player.name == current_player }.first)
+	end
+
+	def opponent_object
+		players.reject { |player| player.name == current_player }.first
+	end
+
+	def current_player_object
+		players.select { |player| player.name == current_player }.first
 	end
 
 end

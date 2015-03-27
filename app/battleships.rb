@@ -14,7 +14,7 @@ class BattleShips < Sinatra::Base
   enable :sessions
   use Rack::Flash
   use Rack::MethodOverride
-  
+
   GAME = Game.new
 
   get '/' do
@@ -30,7 +30,7 @@ class BattleShips < Sinatra::Base
 
   get '/register' do
     session[:placing_ships] = false
-    erb :register      
+    erb :register
   end
 
   post '/register' do
@@ -56,7 +56,7 @@ class BattleShips < Sinatra::Base
       orientation = params[:orientation]
       begin
         GAME.place_ship(start_cell, orientation)
-        GAME.remove_placed_ship_from_fleet 
+        GAME.remove_placed_ship_from_fleet
       rescue => error
         flash[:notice] = error.to_s
       end

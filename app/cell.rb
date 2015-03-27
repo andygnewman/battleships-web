@@ -1,7 +1,7 @@
 class Cell
  attr_reader :hit, :ship_object
 
-  def initialize 
+  def initialize
     @hit = false
     @ship_object = nil
   end
@@ -12,7 +12,7 @@ class Cell
     ship_object.hit! if ship_in_cell?
   end
 
-  def ship_in_cell!(ship) 
+  def ship_in_cell!(ship)
     @ship_object = ship
   end
 

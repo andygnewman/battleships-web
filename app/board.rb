@@ -14,11 +14,11 @@ class Board
     put_on_grid_if_possible(coords, ship)
   end
 
-  def is_fleet_sunk?
+	def is_fleet_sunk?
 		ships.any?(&:floating?) ? false : true
 	end
 
-  def shoot_at(grid_ref)
+	def shoot_at(grid_ref)
     grid_ref = normalize_grid_ref(grid_ref)
 		raise 'You can\'t shoot outside the grid.' if !grid.keys.include?(grid_ref)
     grid[grid_ref].hit!
@@ -49,7 +49,7 @@ class Board
     display_array = []
     grid.keys.each {|g| display_array << (grid[g].hit ? (grid[g].ship_in_cell? ? "S" : "M") : (grid[g].ship_in_cell? ? "s" : "-"))}
     display_array
-  end
+	end
 
   def display_opponents_board
     display_array = []
@@ -58,12 +58,12 @@ class Board
   end
 
 private
-  
- 	def coordinates(ship, start_cell, orientation)
+
+	def coordinates(ship, start_cell, orientation)
     coords = [start_cell]
     ((ship.size) -1).times {coords << next_cell(coords, orientation)}
     coords
-  end
+	end
 
  	def next_cell(coords, orientation)
 		orientation == :horizontal ? coords.last.next : next_vertical(coords)
@@ -99,14 +99,13 @@ private
     grid[grid_ref].ship_in_cell!(ship)
   end
 
-  def ships 
+  def ships
     grid.values.select{|cell|cell.ship_in_cell?}.map(&:ship_object).uniq
   end
 
   def normalize_grid_ref(grid_ref)
     normalized_grid_ref = grid_ref[0] + "0" + grid_ref[1] if grid_ref.length == 2
-    return normalized_grid_ref.to_sym 
+    return normalized_grid_ref.to_sym
   end
 
 end
-
