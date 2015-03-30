@@ -9,8 +9,8 @@ class Game
 
 	def add_player(player)
 		new_player = Player.new
-		new_player.name = player
-		new_player.board = Board.new(Cell)
+		new_player.set_name(player)
+		new_player.set_board(Board.new(Cell))
 		@players << new_player
 		@fleets << Fleet.new.ship_array
 	end

@@ -1,13 +1,16 @@
 class Player
-	attr_accessor :name, :board
+	attr_reader :name, :board
+
+	def set_name(name)
+		@name = name
+	end
+
+	def set_board(board)
+		@board = board
+	end
 
 	def has_board?
 		!@board.nil?
 	end
-
-  def receive_shot(grid_ref)
-    board.shoot_at(grid_ref.to_sym)
-    is_fleet_sunk?
-  end
 
 end
