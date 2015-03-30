@@ -39,16 +39,6 @@ let(:ship_double){double :ship_double}
       expect(cell.hit!).to eq('You hit my battleship!')
     end
 
-# this test is focused on functionality of ship, should test there
-
-    xit 'and sinking a ship, return you sunk a ship message' do
-      cell.ship_in_cell!(ship_double)
-      allow(ship_double).to receive(:hit!)
-      allow(ship_double).to receive(:sunk?).and_return(true)
-      allow(ship_double).to receive(:type).and_return('patrol_boat')
-      expect(cell.hit!).to eq('You sank my patrol_boat!')
-    end
-
     it 'on a cell with no ship in it, return a you missed message' do
       expect(cell.hit!).to eq('You missed!')
     end

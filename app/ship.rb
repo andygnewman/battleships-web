@@ -5,7 +5,8 @@ class Ship
 	attr_reader :size, :type
 	attr_accessor :hits
 
-  SHIPS = {aircraft_carrier: 5, battleship: 4, submarine: 3, destroyer: 3, patrol_boat: 2}
+  SHIPS = {aircraft_carrier: 5, battleship: 4, submarine: 3, destroyer: 3,
+		 patrol_boat: 2}
 
   def self.method_missing name, *args
     return new SHIPS[name], name if SHIPS[name]
@@ -28,6 +29,8 @@ class Ship
 	def floating?
 		!sunk?
 	end
+
+	private
 
 	def hit_ship_message
 		self.sunk? ? "You sank my #{type.to_s.titleize}!" : "You hit my #{type.to_s.titleize}!"
