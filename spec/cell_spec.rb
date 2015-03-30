@@ -2,8 +2,8 @@ require_relative '../app/cell.rb'
 
 describe Cell do
 
-let(:cell){Cell.new}
-let(:ship_double){double :ship_double}
+  let(:cell){Cell.new}
+  let(:ship_double){double :ship_double}
 
   context 'a cell when initialised should:' do
 

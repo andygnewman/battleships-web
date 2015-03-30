@@ -40,7 +40,7 @@ class Game
 	end
 
 	def ship_to_place
-		fleets[index_current_player][0]
+		fleets[index_current_player].first
 	end
 
 	def place_ship(start_cell, orientation)
@@ -72,14 +72,14 @@ class Game
 	end
 
 	def turn
-		@turn ||= players[0].name
-	end
-
-	def switch_turns
-		turn == players[0].name ? self.turn = players[1].name : self.turn = players[0].name if has_two_players?
+		@turn ||= players.first.name
 	end
 
 	alias :current_player :turn
+
+	def switch_turns
+		turn == players.first.name ? self.turn = players.last.name : self.turn = players.first.name if has_two_players?
+	end
 
 private
 
