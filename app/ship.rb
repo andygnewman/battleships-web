@@ -1,4 +1,7 @@
 class Ship
+
+	require 'active_support/all'
+
 	attr_reader :size, :type
 	attr_accessor :hits
 
@@ -15,7 +18,7 @@ class Ship
 
 	def hit!
 		self.hits += 1
-		true
+		hit_ship_message
 	end
 
 	def sunk?
@@ -24,6 +27,10 @@ class Ship
 
 	def floating?
 		!sunk?
+	end
+
+	def hit_ship_message
+		self.sunk? ? "You sank my #{type.to_s.titleize}!" : "You hit my #{type.to_s.titleize}!"
 	end
 
 end

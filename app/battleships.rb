@@ -11,7 +11,7 @@ require_relative 'fleet'
 class BattleShips < Sinatra::Base
 
   set :root, File.dirname(__FILE__)
-  
+
   enable :sessions
   use Rack::Flash
   use Rack::MethodOverride

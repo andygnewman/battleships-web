@@ -9,7 +9,7 @@ class Cell
   def hit!
     raise 'This cell has already been hit.' if hit
     @hit = true
-    ship_object.hit! if ship_in_cell?
+    ship_in_cell? ? ship_object.hit! : "You missed!"
   end
 
   def ship_in_cell!(ship)
@@ -20,12 +20,8 @@ class Cell
     ship_object != nil
   end
 
-  def hit_ship_message
-    ship_object.sunk? ? "You sank my #{ship_type_in_cell.to_s.titleize}!" : "You hit my #{ship_type_in_cell.to_s.titleize}!"
-  end
-
   def ship_initial
-    ship_object.type[0]
+    ship_type_in_cell.chars.first
   end
 
   private
@@ -33,5 +29,9 @@ class Cell
   def ship_type_in_cell
     ship_object.type
   end
+  #
+  # def hit_ship_message
+  #   ship_object.sunk? ? "You sank my #{ship_type_in_cell.to_s.titleize}!" : "You hit my #{ship_type_in_cell.to_s.titleize}!"
+  # end
 
 end
