@@ -14,20 +14,15 @@ class Board
     put_on_grid_if_possible(coords, ship)
   end
 
-	def is_fleet_sunk?
-		ships.any?(&:floating?) ? false : true
-	end
-
 	def shoot_at(grid_ref)
     grid_ref = normalize_grid_ref(grid_ref)
-		raise 'You can\'t shoot outside the grid.' if !grid.keys.include?(grid_ref)
+		raise 'You can\'t shoot outside the grid' if !grid.keys.include?(grid_ref)
     grid[grid_ref].hit!
 	end
 
-  def shot_result(grid_ref)
-    grid_ref = normalize_grid_ref(grid_ref)
-    grid[grid_ref].ship_in_cell? ? grid[grid_ref].hit_ship_message : "Miss!"
-  end
+	def is_fleet_sunk?
+		ships.any?(&:floating?) ? false : true
+	end
 
   def shots_received
     grid.values.select{|cell|is_hit?(cell)}.length
@@ -41,9 +36,9 @@ class Board
     ships.reject(&:floating?).count
   end
 
-	def cell_object(grid_ref)
-		grid[grid_ref]
-	end
+	# def cell_object(grid_ref)
+	# 	grid[grid_ref]
+	# end
 
 	def display_players_board
     display_array = []
@@ -57,13 +52,13 @@ class Board
     display_array
   end
 
-private
-
 	def coordinates(ship, start_cell, orientation)
     coords = [start_cell]
     ((ship.size) -1).times {coords << next_cell(coords, orientation)}
     coords
 	end
+
+	private
 
  	def next_cell(coords, orientation)
 		orientation == :horizontal ? coords.last.next : next_vertical(coords)
@@ -104,8 +99,8 @@ private
   end
 
   def normalize_grid_ref(grid_ref)
-    normalized_grid_ref = grid_ref[0] + "0" + grid_ref[1] if grid_ref.length == 2
-    return normalized_grid_ref.to_sym
+    normalized = grid_ref.length == 2 ? grid_ref[0] + "0" + grid_ref[1] : grid_ref
+    normalized.to_sym
   end
 
 end
