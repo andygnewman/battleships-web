@@ -84,7 +84,7 @@ class Game
 private
 
 	def index_current_player
-		@players.index(@players.select { |player| player.name == current_player }.first)
+		players.index(players.select { |player| player.name == current_player }.first)
 	end
 
 	def opponent_object
