@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 #Batleships Web
 
-Building on week two challenge of building the logic of the battleships game in Ruby (we utilised code written by @andygnewman 
+Building on week two challenge of building the logic of the battleships game in Ruby (we utilised code written by @andygnewman
 and @bebbs), the challenge for week three was to bring it to life with a web front end built with Sinatra and utilising
 Cucumber / Capybara for test driven development.
 
