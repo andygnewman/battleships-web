@@ -80,9 +80,9 @@ class BattleShips < Sinatra::Base
   end
 
   post '/shot_result' do
-    @target_cell = params[:column]+params[:row]
+    target_cell = params[:column]+params[:row]
     begin
-      GAME.shoots(@target_cell)
+      @shot_result = GAME.shoots(target_cell)
     rescue => error
       flash[:notice] = error.to_s
       redirect '/take_shot'

@@ -41,12 +41,22 @@ end
 
 Given(/^registration and placement completed$/) do
   register_and_place_ships
-  click_on 'Click here to start the battle!'
-  click_on 'Let Battleships Commence!'
+  ready_for_battle
 end
 
 Given(/^I shoot at column "(.*?)" row "(.*?)"$/) do |c, r|
-  select c, from: "column"
-  select r, from: "row"
-  click_on 'submit'
+  take_a_shot(c,r)
+end
+
+Given(/^a round of shots has been completed column "(.*?)" row "(.*?)"$/) do |c, r|
+  take_a_shot(c,r)
+  next_player_shot
+  take_a_shot(c,r)
+  next_player_shot
+end
+
+Given(/^we have taken shots at all ships$/) do
+  register_and_place_ships
+  ready_for_battle
+  sink_fleet
 end

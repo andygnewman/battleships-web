@@ -21,7 +21,7 @@ class Cell
   end
 
   def ship_initial
-    ship_type_in_cell.chars.first
+    ship_type_in_cell.to_s.chars.first
   end
 
   private

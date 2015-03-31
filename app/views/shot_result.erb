@@ -1,6 +1,6 @@
 <% if GAME.winner? %>
   <% redirect '/winner' %>
 <% else %>
-  <h2><%= GAME.shot_result(@target_cell) %></h2>
+  <h2><%= @shot_result %></h2>
   <p><a href='/next_player_turn'>Next Player Turn</a></p>
 <% end %>
