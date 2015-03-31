@@ -13,7 +13,7 @@ body {
   display: block;
 }
 
-.row-4-20 {
+.row-5-20 {
   background-color: grey;
   color: black;
 }
@@ -64,4 +64,8 @@ a:link, a:visited, a:hover, a:active {
   color: red;
   font-size: 1.5em;
   padding-top: 0.5em;
+}
+
+#player-name-input {
+	width: 170px;
 }
