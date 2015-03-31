@@ -16,7 +16,9 @@ class BattleShips < Sinatra::Base
   use Rack::Flash
   use Rack::MethodOverride
 
-  GAME = Game.new
+  game = Game.new
+
+  set :game, game
 
   get '/' do
     session[:grid_display], session[:placing_ships] = false
@@ -24,28 +26,30 @@ class BattleShips < Sinatra::Base
   end
 
   get '/new_game' do
-    GAME.fleets.clear
-    GAME.players.clear
+    game.fleets.clear
+    game.players.clear
     redirect to('/')
   end
 
   get '/register' do
+    @player_number = game.players.size + 1
     session[:placing_ships] = false
     erb :register
   end
 
   post '/register' do
-    GAME.add_player(params[:player_name])
-    GAME.switch_turns
+    game.add_player(params[:player_name])
+    game.switch_turns
     redirect to('/place_ship')
   end
 
   get '/place_ship' do
       session[:placing_ships] = true
-      if GAME.fleet_empty?
+      if game.fleet_empty?
         erb :all_fleet_ships_placed
       else
-      @ship = GAME.ship_to_place
+      @current_player = game.current_player
+      @ship = game.ship_to_place
       @ship_type = @ship.type.to_s.titleize
       @ship_size = @ship.size
       erb :place_ship
@@ -56,8 +60,8 @@ class BattleShips < Sinatra::Base
       start_cell = params[:row]+params[:column]
       orientation = params[:orientation]
       begin
-        GAME.place_ship(start_cell, orientation)
-        GAME.remove_placed_ship_from_fleet
+        game.place_ship(start_cell, orientation)
+        game.remove_placed_ship_from_fleet
       rescue => error
         flash[:notice] = error.to_s
       end
@@ -66,23 +70,26 @@ class BattleShips < Sinatra::Base
 
   get '/ready_to_play' do
     session[:placing_ships] = false
-    GAME.switch_turns
+    game.switch_turns
+    @current_player = game.current_player
     erb :ready_to_play
   end
 
   get '/take_shot' do
+    @current_player = game.current_player
     session[:grid_display] = true
     erb :take_shot
   end
 
   get '/take_shot_interstitial' do
+    @current_player = game.current_player
     erb :take_shot_interstitial
   end
 
   post '/shot_result' do
     target_cell = params[:row]+params[:column]
     begin
-      @shot_result = GAME.shoots(target_cell)
+      @shot_result = game.shoots(target_cell)
     rescue => error
       flash[:notice] = error.to_s
       redirect '/take_shot'
@@ -91,12 +98,13 @@ class BattleShips < Sinatra::Base
   end
 
   get '/next_player_turn' do
-    GAME.switch_turns
+    game.switch_turns
     session[:grid_display] = false
     redirect '/take_shot_interstitial'
   end
 
   get '/winner' do
+    @winner = game.current_player
     erb :winner
   end
 

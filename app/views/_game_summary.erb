@@ -4,21 +4,21 @@
     <td>Players</td><td>Shots Received</td><td>Hits Suffered</td><td>Ships Sunk</td>
   </tr>
   <tr>
-    <% if GAME.players[0] %>
-      <td><%= GAME.players[0].name %></td>
-      <td><%= GAME.shots_received(0) %></td>
-      <td><%= GAME.ship_hits_suffered(0) %></td>
-      <td><%= GAME.ships_sunk(0) %></td>
+    <% if settings.game.players[0] %>
+      <td><%= settings.game.players[0].name %></td>
+      <td><%= settings.game.shots_received(0) %></td>
+      <td><%= settings.game.ship_hits_suffered(0) %></td>
+      <td><%= settings.game.ships_sunk(0) %></td>
     <% else %>
       <td>Player1</td><td></td><td></td><td></td>
     <% end %>
   </tr>
   <tr>
-    <% if GAME.players[1] %>
-      <td><%= GAME.players[1].name %></td>
-      <td><%= GAME.shots_received(1) %></td>
-      <td><%= GAME.ship_hits_suffered(1) %></td>
-      <td><%= GAME.ships_sunk(1) %></td>
+    <% if settings.game.players[1] %>
+      <td><%= settings.game.players[1].name %></td>
+      <td><%= settings.game.shots_received(1) %></td>
+      <td><%= settings.game.ship_hits_suffered(1) %></td>
+      <td><%= settings.game.ships_sunk(1) %></td>
     <% else %>
       <td>Player2</td><td></td><td></td><td></td>
     <% end %>

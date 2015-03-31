@@ -5,7 +5,7 @@
       <tr><td></td><% [*1..10].each do |column| %>
     <td><%= column %></td>
       <% end %></tr>
-    <% GAME.players_board.each_slice(10).with_index do |slice, index| %>
+    <% settings.game.players_board.each_slice(10).with_index do |slice, index| %>
       <tr>
         <td><%= indexed_rows[index] %></td>
         <% slice.each do |value|%>

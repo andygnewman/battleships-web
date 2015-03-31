@@ -1,4 +1,4 @@
-<% if GAME.winner? %>
+<% if settings.game.winner? %>
   <% redirect '/winner' %>
 <% else %>
   <h2><%= @shot_result %></h2>
