@@ -37,16 +37,21 @@ Given(/^I place a ship in column "(.*?)" row "(.*?)" orientation "(.*?)"$/) do |
 end
 
 Given(/^I have placed all ships$/) do
-  [*"A".."E"].each do |c|
-    select c, from: "column"
-    select "1", from: "row"
-    choose "horizontal"
-    click_on 'submit'
-  end
+  # [*"A".."E"].each do |c|
+  #   select c, from: "column"
+  #   select "1", from: "row"
+  #   choose "horizontal"
+  #   click_on 'submit'
+  # end
+  place_all_ships
 end
 
 Given(/^I have registered the second player$/) do
   click_on "Click here to register Player 2"
   fill_in 'player_name', with: "Josh"
   click_on 'submit'
+end
+
+Given(/^registration and placement completed$/) do
+  pending # express the regexp above with the code you wish you had
 end
