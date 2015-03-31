@@ -32,4 +32,5 @@ Feature: Placing ships to play battleships
   Given I have registered the first player
   And I have placed all ships
   And I have registered the second player
-  Then I should see "Please enter coordinates for Aircraft Carrier"
+  And I have placed all ships
+  Then I should see "Click here to start the battle!"
