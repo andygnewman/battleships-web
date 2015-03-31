@@ -5,7 +5,9 @@ Feature: Taking shots
 
   Scenario: Hitting a ship
   Given registration and placement completed
-  
+  And I shoot at column "A" row "1"
+  Then I should see "what's on this page"
+
 
   Scenario: Hitting water
 

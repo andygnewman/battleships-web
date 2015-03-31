@@ -8,9 +8,7 @@ Then(/^I should see "(.*?)"$/) do |content|
 end
 
 Given(/^I am ready to register the first player$/) do
-  visit '/'
-  click_on 'new game'
-  click_on "Register Player 1"
+  ready_to_register_player_1
 end
 
 Given(/^I fill in "(.*?)" with "(.*?)"$/) do |field, value|
@@ -22,11 +20,8 @@ Given(/^I click "(.*?)"$/) do |button|
 end
 
 Given(/^I have registered the first player$/) do
-  visit '/'
-  click_on 'new game'
-  click_on "Register Player 1"
-  fill_in 'player_name', with: "Andy"
-  click_on 'submit'
+  ready_to_register_player_1
+  register_player_1
 end
 
 Given(/^I place a ship in column "(.*?)" row "(.*?)" orientation "(.*?)"$/) do |c, r, o|
@@ -37,21 +32,21 @@ Given(/^I place a ship in column "(.*?)" row "(.*?)" orientation "(.*?)"$/) do |
 end
 
 Given(/^I have placed all ships$/) do
-  # [*"A".."E"].each do |c|
-  #   select c, from: "column"
-  #   select "1", from: "row"
-  #   choose "horizontal"
-  #   click_on 'submit'
-  # end
   place_all_ships
 end
 
 Given(/^I have registered the second player$/) do
-  click_on "Click here to register Player 2"
-  fill_in 'player_name', with: "Josh"
-  click_on 'submit'
+  register_player_2
 end
 
 Given(/^registration and placement completed$/) do
-  pending # express the regexp above with the code you wish you had
+  register_and_place_ships
+  click_on 'Click here to start the battle!'
+  click_on 'Let Battleships Commence!'
+end
+
+Given(/^I shoot at column "(.*?)" row "(.*?)"$/) do |c, r|
+  select c, from: "column"
+  select r, from: "row"
+  click_on 'submit'
 end
