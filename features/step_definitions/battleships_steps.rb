@@ -24,9 +24,9 @@ Given(/^I have registered the first player$/) do
   register_player_1
 end
 
-Given(/^I place a ship in column "(.*?)" row "(.*?)" orientation "(.*?)"$/) do |c, r, o|
-  select c, from: "column"
+Given(/^I place a ship in row "(.*?)" column "(.*?)" orientation "(.*?)"$/) do |r, c, o|
   select r, from: "row"
+  select c, from: "column"
   choose o
   click_on 'submit'
 end
@@ -44,14 +44,14 @@ Given(/^registration and placement completed$/) do
   ready_for_battle
 end
 
-Given(/^I shoot at column "(.*?)" row "(.*?)"$/) do |c, r|
-  take_a_shot(c,r)
+Given(/^I shoot at row "(.*?)" column "(.*?)"$/) do |r, c|
+  take_a_shot(r,c)
 end
 
-Given(/^a round of shots has been completed column "(.*?)" row "(.*?)"$/) do |c, r|
-  take_a_shot(c,r)
+Given(/^a round of shots has been completed row "(.*?)" column "(.*?)"$/) do |r, c|
+  take_a_shot(r,c)
   next_player_shot
-  take_a_shot(c,r)
+  take_a_shot(r,c)
   next_player_shot
 end
 

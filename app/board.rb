@@ -36,10 +36,6 @@ class Board
     ships.reject(&:floating?).count
   end
 
-	# def cell_object(grid_ref)
-	# 	grid[grid_ref]
-	# end
-
 	def display_players_board
     display_array = []
     grid.keys.each {|g| display_array << (grid[g].hit ? (grid[g].ship_in_cell? ? "S" : "M") : (grid[g].ship_in_cell? ? "s" : "-"))}

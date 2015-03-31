@@ -53,7 +53,7 @@ class BattleShips < Sinatra::Base
   end
 
   post '/place_ship' do
-      start_cell = params[:column]+params[:row]
+      start_cell = params[:row]+params[:column]
       orientation = params[:orientation]
       begin
         GAME.place_ship(start_cell, orientation)
@@ -80,7 +80,7 @@ class BattleShips < Sinatra::Base
   end
 
   post '/shot_result' do
-    target_cell = params[:column]+params[:row]
+    target_cell = params[:row]+params[:column]
     begin
       @shot_result = GAME.shoots(target_cell)
     rescue => error

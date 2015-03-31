@@ -5,23 +5,23 @@ Feature: Taking shots
 
   Scenario: Hitting a ship
     Given registration and placement completed
-    And I shoot at column "A" row "1"
+    And I shoot at row "A" column "1"
     Then I should see "You hit my Aircraft Carrier!"
 
   Scenario: Hitting water
     Given registration and placement completed
-    And I shoot at column "A" row "10"
+    And I shoot at row "A" column "10"
     Then I should see "You missed!"
 
   Scenario: Shooting at a cell already shot at
     Given registration and placement completed
-    And a round of shots has been completed column "A" row "1"
-    And I shoot at column "A" row "1"
+    And a round of shots has been completed row "A" column "1"
+    And I shoot at row "A" column "1"
     Then I should see "This cell has already been hit."
 
 
   Scenario: Sinking a ship (patrol boat)
     Given registration and placement completed
-    And a round of shots has been completed column "E" row "1"
-    And I shoot at column "E" row "2"
+    And a round of shots has been completed row "E" column "1"
+    And I shoot at row "E" column "2"
     Then I should see "You sank my Patrol Boat"

@@ -8,9 +8,9 @@ module StepHelpers
 
 
   def place_all_ships
-    [*"A".."E"].each do |c|
-      select c, from: "column"
-      select "1", from: "row"
+    [*"A".."E"].each do |r|
+      select r, from: "row"
+      select "1", from: "column"
       choose "horizontal"
       click_on 'submit'
     end
@@ -41,9 +41,9 @@ module StepHelpers
     place_all_ships
   end
 
-  def take_a_shot(c, r)
-    select c, from: "column"
+  def take_a_shot(r, c)
     select r, from: "row"
+    select c, from: "column"
     click_on 'submit'
   end
 

@@ -2,15 +2,15 @@
 <p>Please enter coordinates for <%=@ship_type%> of size <%=@ship_size%></p>
 
 <p>Start Point:</p>
-<p><select name="column" form="place_ship_coordinates">
-  <% [*"A".."J"].each do |column| %>
-    <option value=<%= column %>><%= column %></option>
+<p><select name="row" form="place_ship_coordinates">
+  <% [*"A".."J"].each do |row| %>
+    <option value=<%= row %>><%= row %></option>
   <% end %>
 </select>
 
-<select name="row" form="place_ship_coordinates">
-  <% [*1..10].each do |row| %>
-    <option value=<%= row %>><%= row %></option>
+<select name="column" form="place_ship_coordinates">
+  <% [*1..10].each do |column| %>
+    <option value=<%= column %>><%= column %></option>
   <% end %>
 </select></p>
 

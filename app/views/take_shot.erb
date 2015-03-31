@@ -1,15 +1,15 @@
 <h2><%= GAME.current_player %>, your turn to shoot!</h2>
 <p>Please enter the coordinates for your shot..</p>
 
-<p><select name="column" form="target_coordinates">
-  <% [*"A".."J"].each do |column| %>
-    <option value=<%= column %>><%= column %></option>
+<p><select name="row" form="target_coordinates">
+  <% [*"A".."J"].each do |row| %>
+    <option value=<%= row %>><%= row %></option>
   <% end %>
 </select>
 
-<select name="row" form="target_coordinates">
-  <% [*1..10].each do |row| %>
-    <option value=<%= row %>><%= row %></option>
+<select name="column" form="target_coordinates">
+  <% [*1..10].each do |column| %>
+    <option value=<%= column %>><%= column %></option>
   <% end %>
 </select></p>
 
